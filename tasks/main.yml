@@ -1,0 +1,56 @@
+---
+- name: Gather MongoDB node variables for replication
+  set_fact:
+    mongod_servers: "\
+      {% set _mongod_servers = [] %}\
+      {% for host in groups[group_names[-1]] %}\
+      {% set _mongo_replset = hostvars[host]['mongo_replset'] | default('', true) %}\
+      {% set _mongo_node_role = hostvars[host]['mongo_node_role'] | default('', true) %}\
+        {% if ( _mongo_replset == hostvars[host]['mongo_replset'] and (_mongo_node_role == 'arbiter' or _mongo_node_role == 'replica')) %}\
+          {% if _mongod_servers.append(hostvars[host]['inventory_hostname']) %}{% endif %}\
+        {% endif %}\
+      {% endfor %}\
+      {{ _mongod_servers }}"
+  when: mongo_replset is defined
+
+- name: Replica Set Members check
+  debug:
+    msg: 'The minimum recommended configuration for a replica set is a three member replica set with three data-bearing members, the replica set configuration will be ignored.'
+  when:
+    - mongo_replset is defined
+    - mongod_servers|length|int is divisibleby 2
+
+- name: Check if MongoDB tablespace exists
+  stat:
+    path: '{{ mongod_path }}/mongod/diagnostic.data'
+  register: result
+
+- name: Mongo operation
+  block:
+    - name: Include firewall tasks
+      include: 'firewall.yml'
+    - name: Straight to getenforce selinux status
+      include: 'selinux.yml'
+    - name: Include OS-specific variables
+      include_vars: '{{ ansible_os_family }}.yml'
+    - name: Include tasks for specific OS
+      include: '{{ ansible_os_family }}.yml'
+    - name: Install requirement python package
+      pip:
+        name: 'pymongo'
+    - name: Include initialization tasks
+      include: 'initialization.yml'
+    - name: Include replica sets tasks
+      include: 'replset.yml'
+      when:
+        - mongo_replset is defined
+        - mongod_servers|length|int is not divisibleby 2
+    - name: Include backup tasks
+      include: 'backup.yml'
+    - name: Include prometheus exporter tasks
+      include: 'mongodb_exporter.yml'
+    - name: Include authentication tasks
+      include: 'authentication.yml'
+      when: mongod_arg.authorization == 'enabled'
+  when:
+    - not result.stat.exists

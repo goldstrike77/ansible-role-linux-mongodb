@@ -1,0 +1,72 @@
+storage:
+  dbPath: {{ mongod_path }}/mongod
+  journal:
+    enabled: true
+  engine: {{ mongod_arg.engine }}
+{% if mongod_arg.engine == 'wiredTiger' %}
+  wiredTiger:
+    engineConfig:
+      checkpointSizeMB: {{ mongod_arg.wiredTiger_checkpointSizeMB }}
+      statisticsLogDelaySecs: {{ mongod_arg.wiredTiger_statisticsLogDelaySecs }}
+      journalCompressor: {{ mongod_arg.wiredTiger_compressors }}
+      directoryForIndexes: {{ mongod_arg.wiredTiger_directoryForIndexes }}
+    collectionConfig:
+      blockCompressor: {{ mongod_arg.wiredTiger_compressors }}
+    indexConfig:
+      prefixCompression: {{ mongod_arg.wiredTiger_prefixCompression }}
+setParameter:
+    wiredTigerConcurrentReadTransactions: {{ mongod_arg.wiredTiger_ConcurrentReadTransactions }}
+    wiredTigerConcurrentWriteTransactions: {{ mongod_arg.wiredTiger_ConcurrentWriteTransactions }}
+{% elif mongod_arg.engine == 'rocksdb' %}
+  rocksdb:
+    compression: {{ mongod_arg.rocksdb_compressors }}
+    maxWriteMBPerSec: {{ mongod_arg.rocksdb_maxWriteMBPerSec }}
+    crashSafeCounters: {{ mongod_arg.rocksdb_crashSafeCounters }}
+    counters: {{ mongod_arg.rocksdb_counters }}
+    singleDeleteIndex: {{ mongod_arg.rocksdb_singleDeleteIndex }}
+{% else %}
+{% endif %}
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /var/log/mongo/mongod.log
+  logRotate: reopen
+
+processManagement:
+  fork: true
+  pidFilePath: /var/run/mongod.pid
+
+# network interfaces
+net:
+  port: {{ mongo_port_arg.mongod }}
+  bindIp: 0.0.0.0
+{% if mongo_version == '34' %}
+  http:
+    enabled: {{ mongod_arg.http }}
+    RESTInterfaceEnabled: {{ mongod_arg.http }}
+{% endif %}
+
+security:
+  redactClientLogData: {{ mongod_arg.redactClientLogData }}
+
+#operationProfiling:
+
+{% if mongo_replset is defined and mongod_servers|length|int is not divisibleby 2 %}
+replication:
+  oplogSizeMB: {{ mongod_arg.oplogSizeMB| int }}
+  replSetName: {{ mongo_replset }}
+{% endif %}
+
+#sharding:
+
+## Enterprise-Only Options:
+
+auditLog:
+  destination: {{ mongod_arg.auditlog }}
+  format: JSON
+  filter: '{ atype: { $in: [ "{{ '", "'.join(vars['mongod_audit_log_commands']) }}" ] } }'
+  path: /var/log/mongo/audit.log
+
+#snmp:

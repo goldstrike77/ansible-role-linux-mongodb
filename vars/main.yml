@@ -1,0 +1,46 @@
+---
+mongod_folder:
+  - '{{ mongod_path }}/mongod'
+  - '{{ mongod_path }}/mongod_backup/temp'
+
+mongod_kernel_parameters:
+  - { variable: 'kernel.pid_max', value: '64000' }
+  - { variable: 'kernel.threads-max', value: '64000' }
+  - { variable: 'vm.dirty_background_ratio', value: '5' }
+  - { variable: 'vm.dirty_ratio', value: '15' }
+  - { variable: 'vm.max_map_count', value: '128000' }
+  - { variable: 'vm.swappiness', value: '10' }
+
+mongod_conf_scripts:
+  - { src: 'mongod.conf.j2', dest: '/etc/mongod.conf' }
+  - { src: 'mongod.sysconfig.j2', dest: '/etc/sysconfig/mongod' }
+  - { src: 'mongod.logrotate.j2', dest: '/etc/logrotate.d/mongod' }
+
+mongod_audit_log_commands: # https://docs.mongodb.com/manual/reference/audit-message
+  - 'addShard'
+  - 'createCollection'
+  - 'createDatabase'
+  - 'createIndex'
+  - 'createRole'
+  - 'createUser'
+  - 'dropAllRolesFromDatabase'
+  - 'dropAllUsersFromDatabase'
+  - 'dropCollection'
+  - 'dropDatabase'
+  - 'dropIndex'
+  - 'dropRole'
+  - 'dropUser'
+  - 'enableSharding'
+  - 'grantPrivilegesToRole'
+  - 'grantRolesToRole'
+  - 'grantRolesToUser'
+  - 'removeShard'
+  - 'renameCollection'
+  - 'replSetReconfig'
+  - 'revokePrivilegesFromRole'
+  - 'revokeRolesFromRole'
+  - 'revokeRolesFromUser'
+  - 'shardCollection'
+  - 'shutdown'
+  - 'updateRole'
+  - 'updateUser'

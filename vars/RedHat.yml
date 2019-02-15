@@ -1,0 +1,13 @@
+---
+mongo_repo_name: 'percona'
+mongo_repo_url: "http://repo.percona.com/release/{{ansible_distribution_version.split('.')[0]}}/RPMS/{{ansible_architecture}}"
+disable_gpg_check: yes
+
+mongo_packages:
+  - 'pmm-client'
+  - 'python2-pip.noarch'
+  - 'Percona-Server-MongoDB-{{ mongo_version }}'
+  - 'Percona-Server-MongoDB-{{ mongo_version }}-server'
+  - 'Percona-Server-MongoDB-{{ mongo_version }}-shell'
+  - 'Percona-Server-MongoDB-{{ mongo_version }}-mongos'
+  - 'Percona-Server-MongoDB-{{ mongo_version }}-tools'

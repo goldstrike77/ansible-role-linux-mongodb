@@ -1,0 +1,26 @@
+#!/bin/bash
+RM=/bin/rm
+TAR=/bin/tar
+MONGO=/bin/mongo
+DATE=`/bin/date '+%Y%m%d_%H%M%S'`
+FIND=/bin/find
+
+if [ ! -d {{ mongod_path }}/mongod_backup/temp ]; then
+  echo "Backup destination folder: {{ mongod_path }}/mongod_backup/temp does not exist."
+  exit 0
+else
+  $RM -fr {{ mongod_path }}/mongod_backup/temp/*
+fi
+
+$MONGO -u "backup" -p "{{ mongod_backup_user_passwd }}" --authenticationDatabase "admin" admin << EOF
+  db.runCommand({createBackup: 1, backupDir: "{{ mongod_path }}/mongod_backup/temp"});
+EOF
+
+echo $?
+if [ $? = 0 ]; then
+  $TAR zcvfP {{ mongod_path }}/mongod_backup/full_$DATE.tar.gz {{ mongod_path }}/mongod_backup/temp/* --remove-files
+fi
+
+$FIND {{ mongod_path }}/mongod_backup -type f -mtime +{{ mongod_arg.backupset_keep }} -exec $RM -fr {} \;
+
+exit 0

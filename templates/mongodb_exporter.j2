@@ -1,0 +1,1 @@
+MONGOD_EXPORTER_OPTS='-mongodb.uri="mongodb://prometheus:{{ mongodb_exporter_user_passwd }}@localhost:{{ mongo_port_arg.mongod }}" -web.listen-address=:{{ mongo_port_arg.mongodb_exporter }}'

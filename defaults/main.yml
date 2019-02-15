@@ -1,0 +1,38 @@
+---
+# General parameters #
+#mongo_version: '34' # Specify the MongoDB version, minimum 34
+#mongo_replset: 'demo' # Cluster name of MongoDB servers that implements replication and automated failover
+mongod_selinux: 'false'
+mongod_sa_user: 'sa' # MongoDB Superuser
+db_sa_pass: 'password' # MongoDB Superuser password
+mongod_path: '/data' # Specify the MongoDB data directory
+
+# Backup parameters #
+
+# Listen port #
+mongo_port_arg:
+  mongod: '27017' # MongoDB instance
+  mongodb_exporter: '9216'  # Prometheus MongoDB Exporter
+
+# Server System Variables #
+mongod_arg:
+  auditlog: 'syslog' # syslog or file
+  authorization: 'disabled'
+  backupset_keep: '7' # Backup retention cycle in days
+  engine: 'wiredTiger' # wiredTiger or rocksdb
+  http: 'false' # HTTP Status Interface
+  maxConns: '20000'
+  oplogSizeMB: '4096' # The maximum size in megabytes for the replication operation log
+  redactClientLogData: 'true'
+#  rocksdb_compressors: 'snappy' # snappy / zlib / none
+#  rocksdb_counters: 'true'
+#  rocksdb_crashSafeCounters: 'false'
+#  rocksdb_maxWriteMBPerSec: '1024'
+#  rocksdb_singleDeleteIndex: 'false'
+  wiredTiger_checkpointSizeMB: '1024'
+  wiredTiger_compressors: 'snappy' # snappy / zlib / none
+  wiredTiger_ConcurrentReadTransactions: '512'
+  wiredTiger_ConcurrentWriteTransactions: '512'
+  wiredTiger_directoryForIndexes: 'true'
+  wiredTiger_prefixCompression: 'true'
+  wiredTiger_statisticsLogDelaySecs: '0'

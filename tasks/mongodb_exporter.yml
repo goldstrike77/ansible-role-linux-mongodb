@@ -1,0 +1,65 @@
+---
+- name: Prometheus user password generator
+  set_fact:
+    mongodb_exporter_user_passwd: "{{ lookup('password', '' + group_names[-1] + ':exporter length=12 chars=ascii_letters,digits') }}"
+
+- name: Create mongodb_exporter user with replset
+  mongodb_user:
+    replica_set: '{{ mongo_replset }}'
+    database: 'admin'
+    name: 'prometheus'
+    password: '{{ mongodb_exporter_user_passwd }}'
+    state: present
+    roles:
+      - db: admin
+        role: clusterMonitor
+      - db: local
+        role: read
+  when:
+    - mongo_replset is defined
+    - ansible_hostname in mongod_servers[0]|upper
+    - mongod_servers|length|int is not divisibleby 2
+  no_log: true
+
+- name: Create mongodb_exporter user without replset
+  mongodb_user:
+    database: 'admin'
+    name: 'prometheus'
+    password: '{{ mongodb_exporter_user_passwd }}'
+    state: present
+    roles:
+      - db: admin
+        role: clusterMonitor
+      - db: local
+        role: read
+  when: mongo_replset is not defined or mongod_servers|length|int is divisibleby 2
+  no_log: true
+
+- name: mongodb_exporter config file transfer
+  template:
+    src: 'mongodb_exporter.j2'
+    dest: '/etc/default/mongod_exporter'
+    owner: root
+    group: root
+    mode: 0644
+  no_log: true
+  register: mongodb_exporter_conf
+
+- name : mongodb_exporter systemd file transfer
+  copy:
+    src: 'mongodb_exporter.service'
+    dest: '/lib/systemd/system/mongodb_exporter.service'
+    owner: root
+    group: root
+    mode: 0644
+  register: mongodb_exporter_systemd
+
+- name: Ensure mongod_exporter service is enabled
+  systemd:
+    name: 'mongodb_exporter.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: yes
+  async: 1
+  poll: 0
+  when: mongodb_exporter_conf|changed or mongodb_exporter_systemd|changed

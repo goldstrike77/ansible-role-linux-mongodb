@@ -1,0 +1,9 @@
+---
+- name: Allow MongoDB service port
+  firewalld:
+    port: '{{ item.value }}/tcp'
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  with_dict: '{{ mongo_port_arg }}'

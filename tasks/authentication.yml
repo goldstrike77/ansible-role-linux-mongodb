@@ -1,0 +1,62 @@
+---
+- name: Create MongoDB Superuser without replset
+  mongodb_user:
+    database: 'admin'
+    name: '{{ mongod_sa_user }}'
+    password: '{{ db_sa_pass }}'
+    roles: userAdminAnyDatabase
+    state: present
+  no_log: true
+  when: mongo_replset is not defined or mongod_servers|length|int is divisibleby 2
+
+- name: Create MongoDB Superuser with replset
+  mongodb_user:
+    replica_set: '{{ mongo_replset }}'
+    database: 'admin'
+    name: '{{ mongod_sa_user }}'
+    password: '{{ db_sa_pass }}'
+    roles: 'root'
+    state: 'present'
+  no_log: true
+  when:
+    - mongo_replset is defined
+    - mongod_servers|length|int is not divisibleby 2
+    - ansible_hostname == mongod_servers[0]|upper    
+
+- name: Ensure authentication is enabled for MongoDB
+  lineinfile:
+    state: present
+    dest: /etc/mongod.conf
+    insertafter: 'security:'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^  authorization:', line: '  authorization: enabled' }
+
+- name: MongoDB authentication Keyfiles transfer
+  template:
+    src: 'authentication.key.j2'
+    dest: '{{ mongod_path }}/mongod/authentication.key'
+    owner: 'mongod'
+    group: 'mongod'
+    mode: 0600
+  no_log: true
+  when:
+    - mongo_replset is defined
+
+- name: Ensure authentication is enabled for MongoDB
+  lineinfile:
+    state: present
+    dest: /etc/mongod.conf
+    insertafter: 'security:'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^  keyFile:', line: '  keyFile: {{ mongod_path }}/mongod/authentication.key' }
+  when:
+    - mongo_replset is defined
+
+- name: Ensure MongoDB service is reload
+  systemd:
+    name: 'mongod.service'
+    state: restarted

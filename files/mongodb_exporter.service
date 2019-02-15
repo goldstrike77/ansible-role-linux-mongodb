@@ -1,0 +1,20 @@
+# -*- mode: conf -*-
+
+[Unit]
+
+Description=Prometheus exporter for MongoDB server metrics.
+Documentation=https://github.com/percona/mongodb_exporter
+After=network.target
+
+
+[Service]
+
+EnvironmentFile=-/etc/default/mongod_exporter
+User=mongod
+ExecStart=/usr/local/percona/pmm-client/mongodb_exporter $MONGOD_EXPORTER_OPTS
+Restart=on-failure
+
+
+[Install]
+
+WantedBy=multi-user.target

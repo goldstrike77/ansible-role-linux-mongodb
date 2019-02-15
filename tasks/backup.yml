@@ -1,0 +1,45 @@
+---
+- name: Backup user password generator
+  set_fact:
+    mongod_backup_user_passwd: "{{ lookup('password', '' + group_names[-1] + ':backup length=12 chars=ascii_letters,digits') }}"
+
+- name: Create MongoDB backupuser with replset
+  mongodb_user:
+    replica_set: '{{ mongo_replset }}'
+    database: 'admin'
+    name: 'backup'
+    password: '{{ mongod_backup_user_passwd }}'
+    roles: 'backup'
+    state: 'present'
+  when:
+    - mongo_replset is defined
+    - ansible_hostname == mongod_servers[0]|upper
+    - mongod_servers|length|int is not divisibleby 2
+  no_log: true
+
+- name: Create MongoDB backupuser without replset
+  mongodb_user:
+    database: 'admin'
+    name: 'backup'
+    password: '{{ mongod_backup_user_passwd }}'
+    roles: 'backup'
+    state: 'present'
+  when: mongo_replset is not defined or mongod_servers|length|int is divisibleby 2
+  no_log: true
+
+- name: MongoDB Backup Scripts file transfer
+  template:
+    src: 'mongod_hot_backup.sh.j2'
+    dest: '/usr/local/bin/mongod_hot_backup.sh'
+    owner: 'mongod'
+    group: 'mongod'
+    mode: 0664
+  no_log: true
+
+- name : MongoDB backup job
+  cron:
+    user: 'mongod'
+    name: 'MongoDB Hot Backup'
+    minute: "{{ ( inventory_hostname | hash | list | map('int',0,16) | sum ) % 60 }}"
+    hour: "{{ (( inventory_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
+    job: '/bin/sh /usr/local/bin/mongod_hot_backup.sh'
