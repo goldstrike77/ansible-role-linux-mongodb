@@ -50,6 +50,8 @@ The `mongo_version` should contain the MongoDB releases version.
 
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
+
+##### General parameters
 * `mongo_version`: Specify the MongoDB version, minimum 34.
 * `mongo_replset`: Cluster name of MongoDB servers that implements replication and automated failover.
 * `mongod_selinux`: SELinux mongod policy.
@@ -57,8 +59,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `db_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB main data directory.
 * `mongo_node_role`: Member node's role
+
+##### Listen port
 * `mongo_port_arg.mongod`: MongoDB instance listen port.
 * `mongo_port_arg. mongodb_exporter`: Prometheus MongoDB Exporter listen port.
+
+##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
 * `mongod_arg.authorization`: Enabling access control on a MongoDB deployment enforces authentication.
 * `mongod_arg.backupset_keep`: Backup retention cycle in days.
