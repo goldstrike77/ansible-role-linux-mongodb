@@ -1,4 +1,8 @@
 ---
+mongod_python_dependent_packages:
+  - 'pip'
+  - 'pymongo'
+
 mongod_folder:
   - '{{ mongod_path }}/mongod'
   - '{{ mongod_path }}/mongod_backup/temp'

@@ -37,7 +37,9 @@
       include: '{{ ansible_os_family }}.yml'
     - name: Install requirement python package
       pip:
-        name: 'pymongo'
+        name: '{{ item }}'
+        state: 'forcereinstall'
+      with_items: '{{ mongod_python_dependent_packages }}'
     - name: Include initialization tasks
       include: 'initialization.yml'
     - name: Include replica sets tasks
