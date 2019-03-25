@@ -12,7 +12,7 @@ mongod_kernel_parameters:
   - { variable: 'kernel.threads-max', value: '64000' }
   - { variable: 'vm.dirty_background_ratio', value: '5' }
   - { variable: 'vm.dirty_ratio', value: '15' }
-  - { variable: 'vm.max_map_count', value: '128000' }
+  - { variable: 'vm.max_map_count', value: '262144' }
   - { variable: 'vm.swappiness', value: '10' }
 
 mongod_conf_scripts:
