@@ -6,6 +6,12 @@ mongod_selinux: 'false'
 mongod_sa_user: 'sa' # MongoDB Superuser
 db_sa_pass: 'password' # MongoDB Superuser password
 mongod_path: '/data' # Specify the MongoDB data directory
+consul_is_register: false
+consul_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_clients:
+  - '1.1.1.1'
+  - '1.1.1.2'
+consul_http_port: '8500'
 
 # Backup parameters #
 
@@ -17,7 +23,7 @@ mongo_port_arg:
 # Server System Variables #
 mongod_arg:
   auditlog: 'syslog' # syslog or file
-  authorization: 'disabled'
+  authorization: true
   backupset_keep: '7' # Backup retention cycle in days
   engine: 'wiredTiger' # wiredTiger or rocksdb
   http: 'false' # HTTP Status Interface

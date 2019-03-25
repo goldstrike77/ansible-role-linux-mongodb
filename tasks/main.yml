@@ -53,6 +53,6 @@
       include: 'mongodb_exporter.yml'
     - name: Include authentication tasks
       include: 'authentication.yml'
-      when: mongod_arg.authorization == 'enabled'
+      when: mongod_arg.authorization
   when:
     - not result.stat.exists

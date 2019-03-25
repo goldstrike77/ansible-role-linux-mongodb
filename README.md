@@ -59,6 +59,11 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `db_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB main data directory.
 * `mongo_node_role`: Member node's role
+* `environments`: Define the object environment.
+* `consul_is_register`: a boolean value, whether register a client service with consul.
+* `consul_clients`: Consul client addresses list.
+* `consul_http_port`: Consul client listen port.
+* `consul_exporter_token`: Consul client ACL token.
 
 ##### Listen port
 * `mongo_port_arg.mongod`: MongoDB instance listen port.
@@ -66,7 +71,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
-* `mongod_arg.authorization`: Enabling access control on a MongoDB deployment enforces authentication.
+* `mongod_arg.authorization`: A boolean value, Enable or Disable authentication.
 * `mongod_arg.backupset_keep`: Backup retention cycle in days.
 * `mongod_arg.engine`: Storage Engines, wiredTiger or rocksdb(deprecated in Percona Server for MongoDB 3.6.).
 * `mongod_arg.http`: Enables or disables HTTP Status Interface.
