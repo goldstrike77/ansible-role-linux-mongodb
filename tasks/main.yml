@@ -54,5 +54,7 @@
     - name: Include authentication tasks
       include: 'authentication.yml'
       when: mongod_arg.authorization
+    - include_tasks: 'register.yml'
+      when: consul_is_register
   when:
     - not result.stat.exists
