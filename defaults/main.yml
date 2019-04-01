@@ -6,12 +6,13 @@ mongod_selinux: 'false'
 mongod_sa_user: 'sa' # MongoDB Superuser
 db_sa_pass: 'password' # MongoDB Superuser password
 mongod_path: '/data' # Specify the MongoDB data directory
-consul_is_register: false
-consul_exporter_token: '00000000-0000-0000-0000-000000000000'
-consul_clients:
-  - '1.1.1.1'
-  - '1.1.1.2'
-consul_http_port: '8500'
+
+# Service Mesh #
+consul_is_register: false # Whether register a client service with consul.
+consul_exporter_token: '00000000-0000-0000-0000-000000000000' # Consul client ACL token.
+consul_clients: # List of consul clients.
+  - 'localhost'
+consul_http_port: '8500' # The consul HTTP API port.
 
 # Backup parameters #
 

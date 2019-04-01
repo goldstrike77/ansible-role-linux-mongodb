@@ -62,10 +62,12 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_path`: Specify the MongoDB main data directory.
 * `mongo_node_role`: Member node's role
 * `environments`: Define the object environment.
-* `consul_is_register`: a boolean value, whether register a client service with consul.
-* `consul_clients`: Consul client addresses list.
-* `consul_http_port`: Consul client listen port.
+
+##### Service Mesh
+* `consul_is_register`: Whether register a client service with consul.
 * `consul_exporter_token`: Consul client ACL token.
+* `consul_clients`: List of consul clients.
+* `consul_http_port`: The consul HTTP API port.
 
 ##### Listen port
 * `mongo_port_arg.mongod`: MongoDB instance listen port.
@@ -143,6 +145,10 @@ You can also use the group_vars or the host_vars files for setting the variables
       wiredTiger_directoryForIndexes: 'true'
       wiredTiger_prefixCompression: 'true'
       wiredTiger_statisticsLogDelaySecs: '0'
+    consul_is_register: false
+    consul_exporter_token: '00000000-0000-0000-0000-000000000000'
+    consul_clients: 'localhost'
+    consul_http_port: '8500'
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
