@@ -75,7 +75,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Listen port
 * `mongo_port_arg.mongod`: MongoDB instance listen port.
-* `mongo_port_arg. mongodb_exporter`: Prometheus MongoDB Exporter listen port.
+* `mongo_port_arg.mongodb_exporter`: Prometheus MongoDB Exporter listen port.
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
