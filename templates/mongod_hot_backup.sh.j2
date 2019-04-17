@@ -21,6 +21,6 @@ if [ $? = 0 ]; then
   $TAR zcvfP {{ mongod_path }}/mongod_backup/full_$DATE.tar.gz {{ mongod_path }}/mongod_backup/temp/* --remove-files
 fi
 
-$FIND {{ mongod_path }}/mongod_backup -type f -mtime +{{ mongod_arg.backupset_keep }} -exec $RM -fr {} \;
+$FIND {{ mongod_path }}/mongod_backup -type f -mtime +{{ mongod_backupset_keep }} -exec $RM -fr {} \;
 
 exit 0

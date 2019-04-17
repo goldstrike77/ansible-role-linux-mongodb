@@ -9,11 +9,11 @@ storage:
       checkpointSizeMB: {{ mongod_arg.wiredTiger_checkpointSizeMB }}
       statisticsLogDelaySecs: {{ mongod_arg.wiredTiger_statisticsLogDelaySecs }}
       journalCompressor: {{ mongod_arg.wiredTiger_compressors }}
-      directoryForIndexes: {{ mongod_arg.wiredTiger_directoryForIndexes }}
+      directoryForIndexes: {{ mongod_arg.wiredTiger_directoryForIndexes | bool | to_json }}
     collectionConfig:
       blockCompressor: {{ mongod_arg.wiredTiger_compressors }}
     indexConfig:
-      prefixCompression: {{ mongod_arg.wiredTiger_prefixCompression }}
+      prefixCompression: {{ mongod_arg.wiredTiger_prefixCompression | bool | to_json }}
 setParameter:
     wiredTigerConcurrentReadTransactions: {{ mongod_arg.wiredTiger_ConcurrentReadTransactions }}
     wiredTigerConcurrentWriteTransactions: {{ mongod_arg.wiredTiger_ConcurrentWriteTransactions }}
@@ -44,12 +44,12 @@ net:
   bindIp: 0.0.0.0
 {% if mongo_version == '34' %}
   http:
-    enabled: {{ mongod_arg.http }}
-    RESTInterfaceEnabled: {{ mongod_arg.http }}
+    enabled: {{ mongod_arg.http | bool | to_json }}
+    RESTInterfaceEnabled: {{ mongod_arg.http | bool | to_json }}
 {% endif %}
 
 security:
-  redactClientLogData: {{ mongod_arg.redactClientLogData }}
+  redactClientLogData: {{ mongod_arg.redactClientLogData | bool | to_json }}
 
 #operationProfiling:
 

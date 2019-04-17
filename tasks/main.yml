@@ -53,7 +53,7 @@
       include: 'mongodb_exporter.yml'
     - name: Include authentication tasks
       include: 'authentication.yml'
-      when: mongod_arg.authorization
+      when: mongod_authorization
     - include_tasks: 'register.yml'
       when: consul_is_register
   when:

@@ -57,8 +57,9 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongo_version`: Specify the MongoDB version, minimum 34.
 * `mongo_replset`: Cluster name of MongoDB servers that implements replication and automated failover.
 * `mongod_selinux`: SELinux mongod policy.
+* `mongod_authorization`: # Enable or Disable authentication.
 * `mongod_sa_user`: MongoDB Superuser.
-* `db_sa_pass`: MongoDB Superuser password.
+* `mongod_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB main data directory.
 * `mongo_node_role`: Member node's role
 * `environments`: Define the object environment.
@@ -69,14 +70,15 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `consul_clients`: List of consul clients.
 * `consul_http_port`: The consul HTTP API port.
 
+#### Backup parameters
+* `mongod_backupset_keep`: # Backup retention cycle in days
+
 ##### Listen port
 * `mongo_port_arg.mongod`: MongoDB instance listen port.
 * `mongo_port_arg. mongodb_exporter`: Prometheus MongoDB Exporter listen port.
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
-* `mongod_arg.authorization`: A boolean value, Enable or Disable authentication.
-* `mongod_arg.backupset_keep`: Backup retention cycle in days.
 * `mongod_arg.engine`: Storage Engines, wiredTiger or rocksdb(deprecated in Percona Server for MongoDB 3.6.).
 * `mongod_arg.http`: Enables or disables HTTP Status Interface.
 * `mongod_arg.maxConns`: The maximum number of simultaneous connections that mongod will accept.
@@ -122,28 +124,28 @@ You can also use the group_vars or the host_vars files for setting the variables
 
     mongo_version: '34'
     mongo_replset: 'demo'
-    mongod_selinux: 'false'
+    mongod_selinux: false
+    mongod_authorization: false
     mongod_sa_user: 'sa'
-    db_sa_pass: 'password'
+    mongod_sa_pass: 'password'
     mongod_path: '/data'
+    mongod_backupset_keep: '7'
     mongo_port_arg:
       mongod: '27017'
       mongodb_exporter: '9216' 
     mongod_arg:
       auditlog: 'syslog'
-      authorization: 'enabled'
-      backupset_keep: '7'
       engine: 'wiredTiger'
-      http: 'false'
+      http: false
       maxConns: '20000'
       oplogSizeMB: '4096'
-      redactClientLogData: 'true'
+      redactClientLogData: true
       wiredTiger_checkpointSizeMB: '1024'
       wiredTiger_compressors: 'snappy'
       wiredTiger_ConcurrentReadTransactions: '512'
       wiredTiger_ConcurrentWriteTransactions: '512'
-      wiredTiger_directoryForIndexes: 'true'
-      wiredTiger_prefixCompression: 'true'
+      wiredTiger_directoryForIndexes: true
+      wiredTiger_prefixCompression: true
       wiredTiger_statisticsLogDelaySecs: '0'
     consul_is_register: false
     consul_exporter_token: '00000000-0000-0000-0000-000000000000'
