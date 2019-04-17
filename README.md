@@ -61,7 +61,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_sa_user`: MongoDB Superuser.
 * `mongod_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB main data directory.
-* `mongo_node_role`: Member node's role
+* `mongo_node_role`: Member's role for ReplicaSet.
 * `environments`: Define the object environment.
 
 ##### Service Mesh
