@@ -5,7 +5,7 @@
 
 - name: Create mongodb_exporter user with replset
   mongodb_user:
-    replica_set: '{{ mongo_replset }}'
+    replica_set: '{{ mongo_replset | upper }}'
     database: 'admin'
     name: 'prometheus'
     password: '{{ mongodb_exporter_user_passwd }}'
@@ -18,7 +18,6 @@
   when:
     - mongo_replset is defined
     - ansible_hostname in mongod_servers[0]|upper
-    - mongod_servers|length|int is not divisibleby 2
   no_log: true
 
 - name: Create mongodb_exporter user without replset
@@ -32,7 +31,7 @@
         role: clusterMonitor
       - db: local
         role: read
-  when: mongo_replset is not defined or mongod_servers|length|int is divisibleby 2
+  when: mongo_replset is not defined
   no_log: true
 
 - name: mongodb_exporter config file transfer

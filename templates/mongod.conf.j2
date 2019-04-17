@@ -53,10 +53,10 @@ security:
 
 #operationProfiling:
 
-{% if mongo_replset is defined and mongod_servers|length|int is not divisibleby 2 %}
+{% if mongo_replset is defined %}
 replication:
   oplogSizeMB: {{ mongod_arg.oplogSizeMB| int }}
-  replSetName: {{ mongo_replset }}
+  replSetName: {{ mongo_replset | upper }}
 {% endif %}
 
 #sharding:
