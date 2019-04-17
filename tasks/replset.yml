@@ -2,10 +2,10 @@
 - name: MongoDB replication configuration
   mongodb_replication:
     login_host: 'localhost'
-    login_port: '{{ mongo_port_arg.mongod }}'
+    login_port: '{{ mongod_port }}'
     replica_set: '{{ mongo_replset | upper }}'
     host_name: "{{ hostvars[item]['ansible_host'] }}"
-    host_port: '{{ mongo_port_arg.mongod }}'
+    host_port: '{{ mongod_port }}'
     host_type: "{{ hostvars[item]['mongo_node_role'] }}"
   with_items:
     - '{{ mongod_servers }}'

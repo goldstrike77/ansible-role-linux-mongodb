@@ -74,8 +74,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_backupset_keep`: # Backup retention cycle in days
 
 ##### Listen port
-* `mongo_port_arg.mongod`: MongoDB instance listen port.
-* `mongo_port_arg.mongodb_exporter`: Prometheus MongoDB Exporter listen port.
+* `mongod_port`: MongoDB instance listen port.
+* `mongod_exporter_port`: Prometheus MongoDB Exporter listen port.
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
@@ -131,9 +131,8 @@ You can also use the group_vars or the host_vars files for setting the variables
     mongod_sa_pass: 'password'
     mongod_path: '/data'
     mongod_backupset_keep: '7'
-    mongo_port_arg:
-      mongod: '27017'
-      mongodb_exporter: '9216' 
+    mongod_port: '27017'
+    mongod_exporter_port: '9216'
     mongod_arg:
       auditlog: 'syslog'
       engine: 'wiredTiger'

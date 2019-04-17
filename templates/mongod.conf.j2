@@ -40,7 +40,7 @@ processManagement:
 
 # network interfaces
 net:
-  port: {{ mongo_port_arg.mongod }}
+  port: {{ mongod_port }}
   bindIp: 0.0.0.0
 {% if mongo_version == '34' %}
   http:

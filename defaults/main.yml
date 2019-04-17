@@ -18,9 +18,8 @@ consul_http_port: '8500' # The consul HTTP API port.
 mongod_backupset_keep: '7' # Backup retention cycle in days.
 
 # Listen port #
-mongo_port_arg:
-  mongod: '27017' # MongoDB instance
-  mongodb_exporter: '9216'  # Prometheus MongoDB Exporter
+mongod_port: '27017' # MongoDB instance
+mongod_exporter_port: '9216' # Prometheus MongoDB Exporter
 
 # Server System Variables #
 mongod_arg:

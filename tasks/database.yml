@@ -4,7 +4,7 @@
     replica_set: '{{ mongo_replset | upper }}'
     login_user: '{{ mongod_sa_user }}'
     login_password: '{{ mongod_sa_pass }}'
-    login_port: '{{ mongo_port_arg.mongod }}'
+    login_port: '{{ mongod_port }}'
     database: '{{ item.dbs }}'
     name: '{{ item.user }}'
     password: '{{ item.pass }}'
@@ -20,7 +20,7 @@
   mongodb_user:
     login_user: '{{ mongod_sa_user }}'
     login_password: '{{ mongod_sa_pass }}'
-    login_port: '{{ mongo_port_arg.mongod }}'
+    login_port: '{{ mongod_port }}'
     database: '{{ item.dbs }}'
     name: '{{ item.user }}'
     password: '{{ item.pass }}'
