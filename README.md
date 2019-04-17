@@ -91,6 +91,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_arg.wiredTiger_directoryForIndexes`: Enables or disables stores indexes and collections in separate subdirectories under the data (i.e. storage.dbPath) directory.
 * `mongod_arg.wiredTiger_prefixCompression`: Enables or disables prefix compression for index data.
 * `mongod_arg.wiredTiger_statisticsLogDelaySecs`: Log statistics to a file in the dbPath on the interval defined by.
+* `mongod_bu_dbs_arg`: Create a business database if defined.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -147,6 +148,11 @@ You can also use the group_vars or the host_vars files for setting the variables
       wiredTiger_directoryForIndexes: true
       wiredTiger_prefixCompression: true
       wiredTiger_statisticsLogDelaySecs: '0'
+    mongod_bu_dbs_arg:
+      - dbs: 'example'
+        user: 'example'
+        pass: 'password'
+        role: 'readWrite'
     consul_is_register: false
     consul_exporter_token: '00000000-0000-0000-0000-000000000000'
     consul_clients: 'localhost'

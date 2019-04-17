@@ -1,0 +1,32 @@
+---
+- name: Create MongoDB business database with replset
+  mongodb_user:
+    replica_set: '{{ mongo_replset | upper }}'
+    login_user: '{{ mongod_sa_user }}'
+    login_password: '{{ mongod_sa_pass }}'
+    login_port: '{{ mongo_port_arg.mongod }}'
+    database: '{{ item.dbs }}'
+    name: '{{ item.user }}'
+    password: '{{ item.pass }}'
+    roles: '{{ item.role }}'
+    state: 'present'
+  loop: '{{ mongod_bu_dbs_arg }}'
+  when:
+    - mongo_replset is defined
+    - ansible_hostname == mongod_servers[0]|upper
+  no_log: true
+
+- name: Create MongoDB business database without replset
+  mongodb_user:
+    login_user: '{{ mongod_sa_user }}'
+    login_password: '{{ mongod_sa_pass }}'
+    login_port: '{{ mongo_port_arg.mongod }}'
+    database: '{{ item.dbs }}'
+    name: '{{ item.user }}'
+    password: '{{ item.pass }}'
+    roles: '{{ item.role }}'
+    state: 'present'
+  loop: '{{ mongod_bu_dbs_arg }}'
+  when:
+    - mongo_replset is not defined
+  no_log: true

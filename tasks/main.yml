@@ -11,7 +11,8 @@
         {% endif %}\
       {% endfor %}\
       {{ _mongod_servers }}"
-  when: mongo_replset is defined
+  when:
+    - mongo_replset is defined
 
 - name: Check if MongoDB tablespace exists
   stat:
@@ -45,9 +46,16 @@
       include: 'mongodb_exporter.yml'
     - name: Include authentication tasks
       include: 'authentication.yml'
-      when: mongod_authorization
+      when:
+        - mongod_authorization
     - include_tasks: 'register.yml'
-      when: consul_is_register
+      when:
+        - consul_is_register
+    - name: Include business database tasks
+      include: 'database.yml'
+      when:
+        - mongod_bu_dbs_arg is defined
+        - mongod_authorization
   when:
     - not result.stat.exists
     - mongo_replset is not defined or (( mongo_replset is defined ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))

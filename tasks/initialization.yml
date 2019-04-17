@@ -36,3 +36,4 @@
     enabled: yes
     state: started
     daemon_reload: yes
+  register: mongod_task_result

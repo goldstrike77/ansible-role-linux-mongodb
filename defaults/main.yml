@@ -43,9 +43,9 @@ mongod_arg:
   wiredTiger_prefixCompression: true
   wiredTiger_statisticsLogDelaySecs: '0'
 
-# Custom Database Variables #
-mongod_custom_db_arg: # example only
-  - dbs: 'example'
-    user: 'example'
-    pass: 'password'
-    ssl: false
+# Business Database Variables #
+#mongod_bu_dbs_arg: # example only
+#  - dbs: 'example'
+#    user: 'example'
+#    pass: 'password'
+#    role: 'readWrite'
