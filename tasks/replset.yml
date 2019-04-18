@@ -3,10 +3,10 @@
   mongodb_replication:
     login_host: 'localhost'
     login_port: '{{ mongod_port }}'
-    replica_set: '{{ mongo_replset | upper }}'
+    replica_set: '{{ mongod_replset | upper }}'
     host_name: "{{ hostvars[item]['ansible_host'] }}"
     host_port: '{{ mongod_port }}'
-    host_type: "{{ hostvars[item]['mongo_node_role'] }}"
+    host_type: "{{ hostvars[item]['mongod_node_role'] }}"
   with_items:
     - '{{ mongod_servers }}'
   when: ansible_hostname == mongod_servers[0]|upper

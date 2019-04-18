@@ -46,25 +46,26 @@ The following list of supported the MongoDB releases:
 
 In order to get the MongoDB running, you'll have to define the following properties before executing the role:
 
-* mongo_version
+* mongod_version
 
-The `mongo_version` should contain the MongoDB releases version.
+The `mongod_version` should contain the MongoDB releases version.
 
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
 ##### General parameters
-* `mongo_version`: Specify the MongoDB version, minimum 34.
-* `mongo_replset`: Cluster name of MongoDB servers that implements replication and automated failover.
+* `mongod_version`: Specify the MongoDB version, minimum 34.
+* `mongod_replset`: Cluster name of MongoDB servers that implements replication and automated failover.
+* `mongod_servers`: Member list for ReplicaSet.
+* `mongod_node_role`: Member role for ReplicaSet.
 * `mongod_selinux`: SELinux mongod policy.
-* `mongod_authorization`: # Enable or Disable authentication.
-* `mongod_sa_user`: MongoDB Superuser.
+* `mongod_authorization`: A boolean value, Enable or Disable authentication.
+* `mongod_sa_user`: MongoDB Superuser name.
 * `mongod_sa_pass`: MongoDB Superuser password.
-* `mongod_path`: Specify the MongoDB main data directory.
-* `mongo_node_role`: Member's role for ReplicaSet.
-* `environments`: Define the object environment.
+* `mongod_path`: Specify the MongoDB data directory.
 
 ##### Service Mesh
+* `environments`: Define the object environment.
 * `consul_is_register`: Whether register a client service with consul.
 * `consul_exporter_token`: Consul client ACL token.
 * `consul_clients`: List of consul clients.
@@ -108,9 +109,9 @@ There are no dependencies on other roles.
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' mongo_node_role='arbiter'
-    node02 ansible_host='192.168.1.11' mongo_node_role='replica'
-    node03 ansible_host='192.168.1.12' mongo_node_role='replica'
+    node01 ansible_host='192.168.1.10' mongod_node_role='arbiter'
+    node02 ansible_host='192.168.1.11' mongod_node_role='replica'
+    node03 ansible_host='192.168.1.12' mongod_node_role='replica'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -118,13 +119,14 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-mongodb
-           mongo_version: 34
+           mongod_version: 34
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    mongo_version: '34'
-    mongo_replset: 'demo'
+    mongod_version: '34'
+    mongod_replset: 'demo'
+    mongod_node_role: 'replica'
     mongod_selinux: false
     mongod_authorization: false
     mongod_sa_user: 'sa'

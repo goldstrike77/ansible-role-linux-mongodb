@@ -7,11 +7,11 @@
     roles: userAdminAnyDatabase
     state: present
   no_log: true
-  when: mongo_replset is not defined
+  when: mongod_replset is not defined
 
 - name: Create MongoDB Superuser with replset
   mongodb_user:
-    replica_set: '{{ mongo_replset | upper }}'
+    replica_set: '{{ mongod_replset | upper }}'
     database: 'admin'
     name: '{{ mongod_sa_user }}'
     password: '{{ mongod_sa_pass }}'
@@ -19,7 +19,7 @@
     state: 'present'
   no_log: true
   when:
-    - mongo_replset is defined
+    - mongod_replset is defined
     - ansible_hostname == mongod_servers[0]|upper    
 
 - name: Ensure authentication is enabled for MongoDB
@@ -41,7 +41,7 @@
     mode: 0600
   no_log: true
   when:
-    - mongo_replset is defined
+    - mongod_replset is defined
 
 - name: Ensure authentication is enabled for MongoDB
   lineinfile:
@@ -53,7 +53,7 @@
   with_items:
     - { regexp: '^  keyFile:', line: '  keyFile: {{ mongod_path }}/mongod/authentication.key' }
   when:
-    - mongo_replset is defined
+    - mongod_replset is defined
 
 - name: Ensure MongoDB service is reload
   systemd:

@@ -5,14 +5,14 @@
 
 - name: Create MongoDB backupuser with replset
   mongodb_user:
-    replica_set: '{{ mongo_replset | upper }}'
+    replica_set: '{{ mongod_replset | upper }}'
     database: 'admin'
     name: 'backup'
     password: '{{ mongod_backup_user_passwd }}'
     roles: 'backup'
     state: 'present'
   when:
-    - mongo_replset is defined
+    - mongod_replset is defined
     - ansible_hostname == mongod_servers[0]|upper
   no_log: true
 
@@ -23,7 +23,7 @@
     password: '{{ mongod_backup_user_passwd }}'
     roles: 'backup'
     state: 'present'
-  when: mongo_replset is not defined
+  when: mongod_replset is not defined
   no_log: true
 
 - name: MongoDB Backup Scripts file transfer

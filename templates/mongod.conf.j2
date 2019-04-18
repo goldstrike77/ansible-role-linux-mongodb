@@ -42,7 +42,7 @@ processManagement:
 net:
   port: {{ mongod_port }}
   bindIp: 0.0.0.0
-{% if mongo_version == '34' %}
+{% if mongod_version == '34' %}
   http:
     enabled: {{ mongod_arg.http | bool | to_json }}
     RESTInterfaceEnabled: {{ mongod_arg.http | bool | to_json }}
@@ -53,10 +53,10 @@ security:
 
 #operationProfiling:
 
-{% if mongo_replset is defined %}
+{% if mongod_replset is defined %}
 replication:
   oplogSizeMB: {{ mongod_arg.oplogSizeMB| int }}
-  replSetName: {{ mongo_replset | upper }}
+  replSetName: {{ mongod_replset | upper }}
 {% endif %}
 
 #sharding:

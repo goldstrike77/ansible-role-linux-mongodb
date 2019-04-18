@@ -1,10 +1,10 @@
 ---
 - name: Add MongoDB YUM repositories
   yum_repository:
-    name: '{{ mongo_repo_name }}'
-    description: '{{ mongo_repo_name }} YUM repository'
-    file: '{{ mongo_repo_name }}'
-    baseurl: '{{ mongo_repo_url }}'
+    name: '{{ mongod_repo_name }}'
+    description: '{{ mongod_repo_name }} YUM repository'
+    file: '{{ mongod_repo_name }}'
+    baseurl: '{{ mongod_repo_url }}'
     gpgcheck: no
 
 - name: Install the MongoDB packages
@@ -12,4 +12,4 @@
     name: '{{ item }}'
     state: 'present'
   with_items:
-    - '{{ mongo_packages }}'
+    - '{{ mongod_packages }}'
