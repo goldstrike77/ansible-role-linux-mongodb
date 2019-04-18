@@ -13,6 +13,7 @@
       {{ _mongod_servers }}"
   when:
     - mongo_replset is defined
+    - mongod_servers is not defined
 
 - name: Check if MongoDB tablespace exists
   stat:
