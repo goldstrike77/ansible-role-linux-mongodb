@@ -13,7 +13,8 @@
     state: 'present'
   when:
     - mongod_replset is defined
-    - ansible_hostname == mongod_servers[0]|upper
+    - mongod_replset != 'Non-ReplicaSet'
+    - mongod_servers[0] in ansible_default_ipv4.address
   no_log: true
 
 - name: Create MongoDB backupuser without replset
@@ -23,7 +24,7 @@
     password: '{{ mongod_backup_user_passwd }}'
     roles: 'backup'
     state: 'present'
-  when: mongod_replset is not defined
+  when: ( mongod_replset is not defined ) or ( mongod_replset == 'Non-ReplicaSet' )
   no_log: true
 
 - name: MongoDB Backup Scripts file transfer

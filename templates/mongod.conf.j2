@@ -53,7 +53,7 @@ security:
 
 #operationProfiling:
 
-{% if mongod_replset is defined %}
+{% if ( mongod_replset is defined ) and ( mongod_replset != 'Non-ReplicaSet' ) %}
 replication:
   oplogSizeMB: {{ mongod_arg.oplogSizeMB| int }}
   replSetName: {{ mongod_replset | upper }}

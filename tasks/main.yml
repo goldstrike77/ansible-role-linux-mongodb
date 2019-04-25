@@ -7,11 +7,12 @@
       {% set _mongod_replset = hostvars[host]['mongod_replset'] | default('', true) %}\
       {% set _mongod_node_role = hostvars[host]['mongod_node_role'] | default('', true) %}\
         {% if ( _mongod_replset == hostvars[host]['mongod_replset'] and (_mongod_node_role == 'arbiter' or _mongod_node_role == 'replica')) %}\
-          {% if _mongod_servers.append(hostvars[host]['inventory_hostname']) %}{% endif %}\
+          {% if _mongod_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
         {% endif %}\
       {% endfor %}\
       {{ _mongod_servers }}"
   when:
+    - mongod_replset != 'Non-ReplicaSet'
     - mongod_replset is defined
     - mongod_servers is not defined
 
@@ -41,6 +42,8 @@
       include: 'replset.yml'
       when:
         - mongod_replset is defined
+        - mongod_replset != 'Non-ReplicaSet'
+        - mongod_servers[0] in ansible_default_ipv4.address
     - name: Include backup tasks
       include: 'backup.yml'
     - name: Include prometheus exporter tasks
@@ -59,7 +62,7 @@
         - mongod_authorization
   when:
     - not result.stat.exists
-    - mongod_replset is not defined or (( mongod_replset is defined ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))
+    - ( mongod_replset is not defined ) or (mongod_replset == 'Non-ReplicaSet') or (( mongod_replset is defined ) and ( mongod_replset != 'Non-ReplicaSet' ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))
 
 - name: Replica Set Members check
   debug:
@@ -69,6 +72,7 @@
       - 'Task skipped completely.'
   when:
     - mongod_replset is defined
+    - mongod_replset != 'Non-ReplicaSet'
     - mongod_servers|length is divisibleby 2
     - mongod_servers|length <= 2
   run_once: true

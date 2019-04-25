@@ -17,7 +17,8 @@
         role: read
   when:
     - mongod_replset is defined
-    - ansible_hostname in mongod_servers[0]|upper
+    - mongod_replset != 'Non-ReplicaSet'
+    - mongod_servers[0] in ansible_default_ipv4.address
   no_log: true
 
 - name: Create mongodb_exporter user without replset
@@ -31,7 +32,7 @@
         role: clusterMonitor
       - db: local
         role: read
-  when: mongod_replset is not defined
+  when: ( mongod_replset is not defined ) or ( mongod_replset == 'Non-ReplicaSet' )
   no_log: true
 
 - name: mongodb_exporter config file transfer
@@ -61,4 +62,4 @@
     daemon_reload: yes
   async: 1
   poll: 0
-  when: mongodb_exporter_conf|changed or mongodb_exporter_systemd|changed
+  when: mongodb_exporter_conf is changed or mongodb_exporter_systemd is changed

@@ -5,7 +5,7 @@
     login_user: '{{ mongod_sa_user }}'
     login_password: '{{ mongod_sa_pass }}'
     login_port: '{{ mongod_port }}'
-    database: '{{ item.dbs }}'
+    database: '{{ item.dbs | upper}}'
     name: '{{ item.user }}'
     password: '{{ item.pass }}'
     roles: '{{ item.role }}'
@@ -13,7 +13,8 @@
   loop: '{{ mongod_bu_dbs_arg }}'
   when:
     - mongod_replset is defined
-    - ansible_hostname == mongod_servers[0]|upper
+    - mongod_replset != 'Non-ReplicaSet'
+    - mongod_servers[0] in ansible_default_ipv4.address
   no_log: true
 
 - name: Create MongoDB business database without replset
@@ -21,12 +22,11 @@
     login_user: '{{ mongod_sa_user }}'
     login_password: '{{ mongod_sa_pass }}'
     login_port: '{{ mongod_port }}'
-    database: '{{ item.dbs }}'
+    database: '{{ item.dbs | upper }}'
     name: '{{ item.user }}'
     password: '{{ item.pass }}'
     roles: '{{ item.role }}'
     state: 'present'
   loop: '{{ mongod_bu_dbs_arg }}'
-  when:
-    - mongod_replset is not defined
+  when: ( mongod_replset is not defined ) or ( mongod_replset == 'Non-ReplicaSet' )
   no_log: true
