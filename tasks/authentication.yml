@@ -45,7 +45,7 @@
     - mongod_replset is defined
     - mongod_replset != 'Non-ReplicaSet'
 
-- name: Ensure authentication is enabled for MongoDB
+- name: Ensure Keyfiles configured for MongoDB
   lineinfile:
     state: present
     dest: /etc/mongod.conf
