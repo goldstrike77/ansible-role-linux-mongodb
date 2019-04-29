@@ -46,9 +46,7 @@ The following list of supported the MongoDB releases:
 
 In order to get the MongoDB running, you'll have to define the following properties before executing the role:
 
-* mongod_version
-
-The `mongod_version` should contain the MongoDB releases version.
+* `mongod_is_install`: A boolean value, whether install the MongoDB.
 
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
@@ -109,9 +107,9 @@ There are no dependencies on other roles.
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' mongod_node_role='arbiter'
-    node02 ansible_host='192.168.1.11' mongod_node_role='replica'
-    node03 ansible_host='192.168.1.12' mongod_node_role='replica'
+    node01 ansible_host='192.168.1.10' mongod_node_role='arbiter' mongod_is_install='true'
+    node02 ansible_host='192.168.1.11' mongod_node_role='replica' mongod_is_install='true'
+    node03 ansible_host='192.168.1.12' mongod_node_role='replica' mongod_is_install='true'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
@@ -119,11 +117,12 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: all
       roles:
          - role: ansible-role-linux-mongodb
-           mongod_version: 34
+           mongod_is_install: true
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
+    mongod_is_install: true
     mongod_version: '34'
     mongod_replset: 'demo'
     mongod_node_role: 'replica'
