@@ -54,7 +54,7 @@
         - mongod_authorization
     - include_tasks: 'register.yml'
       when:
-        - consul_is_register
+        - consul_public_register
     - name: Include business database tasks
       include: 'database.yml'
       when:
