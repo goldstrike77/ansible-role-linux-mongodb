@@ -42,12 +42,6 @@ The following list of supported the MongoDB releases:
 * Percona Server for MongoDB 3.4, 3.6
 
 ## Role variables
-### Minimal configuration
-
-In order to get the MongoDB running, you'll have to define the following properties before executing the role:
-
-* `mongod_is_install`: A boolean value, whether install the MongoDB.
-
 ### Main parameters #
 There are some variables in defaults/main.yml which can (Or needs to) be overridden:
 
@@ -63,11 +57,11 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_path`: Specify the MongoDB data directory.
 
 ##### Service Mesh
-* `environments`: Define the object environment.
-* `consul_is_register`: Whether register a client service with consul.
-* `consul_exporter_token`: Consul client ACL token.
-* `consul_clients`: List of consul clients.
-* `consul_http_port`: The consul HTTP API port.
+* `environments`: Define the service environment.
+* `consul_public_register`: Whether register a exporter service with public consul client.
+* `consul_public_exporter_token`: Public Consul client ACL token.
+* `consul_public_clients`: List of public consul clients.
+* `consul_public_http_port`: The consul HTTP API port.
 
 #### Backup parameters
 * `mongod_backupset_keep`: # Backup retention cycle in days
@@ -153,10 +147,11 @@ You can also use the group_vars or the host_vars files for setting the variables
         user: 'example'
         pass: 'password'
         role: 'readWrite'
-    consul_is_register: false
-    consul_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_clients: 'localhost'
-    consul_http_port: '8500'
+    environments: 'SIT'
+    consul_public_register: false
+    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+    consul_public_clients: 'localhost'
+    consul_public_http_port: '8500'
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
