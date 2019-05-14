@@ -36,6 +36,10 @@
         name: '{{ item }}'
         state: 'forcereinstall'
       with_items: '{{ mongod_python_dependent_packages }}'
+      register: mongod_python_status
+      until: mongod_python_status is succeeded
+      retries: 5
+      delay: 5
     - name: Include initialization tasks
       include: 'initialization.yml'
     - name: Include replica sets tasks
