@@ -5,11 +5,14 @@
     description: '{{ mongod_repo_name }} YUM repository'
     file: '{{ mongod_repo_name }}'
     baseurl: '{{ mongod_repo_url }}'
-    gpgcheck: no
+    gpgcheck: 'no'
+    timeout: '60'
 
 - name: Install the MongoDB packages
   yum:
     name: '{{ item }}'
     state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
   with_items:
     - '{{ mongod_packages }}'
