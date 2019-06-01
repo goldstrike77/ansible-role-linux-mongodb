@@ -3,6 +3,8 @@ mongod_python_dependent_packages:
   - 'pip'
   - 'pymongo'
 
+mongod_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+
 mongod_folder:
   - '{{ mongod_path }}/mongod'
   - '{{ mongod_path }}/mongod_backup/temp'

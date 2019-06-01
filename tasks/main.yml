@@ -35,6 +35,7 @@
       pip:
         name: '{{ item }}'
         state: 'forcereinstall'
+        extra_args: '-i {{ mongod_pypi_url }}'
       with_items: '{{ mongod_python_dependent_packages }}'
       register: mongod_python_status
       until: mongod_python_status is succeeded
