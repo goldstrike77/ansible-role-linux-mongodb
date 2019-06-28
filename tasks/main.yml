@@ -14,7 +14,7 @@
   when:
     - mongod_replset != 'Non-ReplicaSet'
     - mongod_replset is defined
-    - mongod_servers is not defined
+    - mongod_servers is not defined or mongod_servers | length < 1
 
 - name: Check if MongoDB tablespace exists
   stat:
