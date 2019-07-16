@@ -7,9 +7,9 @@ storage:
   wiredTiger:
     engineConfig:
 {% if mongod_system_type == 'small' or ansible_memtotal_mb <= 2048 %}
-      cacheSizeGB: 256
+      cacheSizeGB: 0.25
 {% else %}
-      cacheSizeGB: {{ (( ansible_memtotal_mb - 1024 ) * 0.5 ) | int }}
+      cacheSizeGB: {{ (( ansible_memtotal_mb - 1024 ) / 2048 ) | round(2,'ceil') }}
 {% endif %}
       checkpointSizeMB: {{ mongod_arg.wiredTiger_checkpointSizeMB }}
       statisticsLogDelaySecs: {{ mongod_arg.wiredTiger_statisticsLogDelaySecs }}
