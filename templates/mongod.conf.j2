@@ -6,6 +6,11 @@ storage:
 {% if mongod_arg.engine == 'wiredTiger' %}
   wiredTiger:
     engineConfig:
+{% if mongod_system_type == 'small' or ansible_memtotal_mb <= 2048 %}
+      cacheSizeGB: 256
+{% else %}
+      cacheSizeGB: {{ (( ansible_memtotal_mb - 1024 ) * 0.5 ) | int }}
+{% endif %}
       checkpointSizeMB: {{ mongod_arg.wiredTiger_checkpointSizeMB }}
       statisticsLogDelaySecs: {{ mongod_arg.wiredTiger_statisticsLogDelaySecs }}
       journalCompressor: {{ mongod_arg.wiredTiger_compressors }}

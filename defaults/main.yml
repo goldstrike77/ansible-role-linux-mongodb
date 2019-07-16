@@ -10,6 +10,7 @@ mongod_authorization: false # A boolean value, Enable or Disable authentication.
 mongod_sa_user: 'sa' # MongoDB Superuser name.
 mongod_sa_pass: 'password' # MongoDB Superuser password.
 mongod_path: '/data' # Specify the MongoDB data directory.
+mongod_system_type: 'autopilot' # Define instance parameters.
 
 # Service Mesh #
 environments: 'SIT' # Define the service environment.
