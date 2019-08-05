@@ -39,9 +39,9 @@
   template:
     src: 'mongodb_exporter.j2'
     dest: '/etc/default/mongod_exporter'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   no_log: true
   register: mongodb_exporter_conf
 
@@ -49,9 +49,9 @@
   copy:
     src: 'mongodb_exporter.service'
     dest: '/lib/systemd/system/mongodb_exporter.service'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   register: mongodb_exporter_systemd
 
 - name: Ensure mongod_exporter service is enabled
