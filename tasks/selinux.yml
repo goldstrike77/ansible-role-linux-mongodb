@@ -25,4 +25,4 @@
   async: 35
   poll: 0
   when:
-    - mongod_selinux
+    - mongod_selinux | bool

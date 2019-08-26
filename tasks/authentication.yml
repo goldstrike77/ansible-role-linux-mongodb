@@ -61,4 +61,4 @@
 - name: Ensure MongoDB service is reload
   systemd:
     name: 'mongod.service'
-    state: restarted
+    state: 'restarted'

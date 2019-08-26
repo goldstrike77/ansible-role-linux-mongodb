@@ -52,20 +52,20 @@
       include: 'backup.yml'
     - name: Include prometheus exporter tasks
       include: 'exporter.yml'
-      when: exporter_is_install
+      when: exporter_is_install | bool
     - name: Include authentication tasks
       include: 'authentication.yml'
       when:
-        - mongod_authorization
+        - mongod_authorization | bool
     - include_tasks: 'register.yml'
       when:
-        - exporter_is_install
-        - consul_public_register
+        - exporter_is_install | bool
+        - consul_public_register | bool
     - name: Include business database tasks
       include: 'database.yml'
       when:
         - mongod_bu_dbs_arg is defined
-        - mongod_authorization
+        - mongod_authorization | bool
   when:
     - not result.stat.exists
     - ( mongod_replset is not defined ) or (mongod_replset == 'Non-ReplicaSet') or (( mongod_replset is defined ) and ( mongod_replset != 'Non-ReplicaSet' ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))
