@@ -7,7 +7,7 @@ mongod_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
 
 mongod_folder:
   - '{{ mongod_path }}/mongod'
-  - '{{ mongod_path }}/mongod_backup/temp'
+  - '{{ mongod_path }}/backup/mongod/temp'
 
 mongod_kernel_parameters:
   - { variable: 'kernel.pid_max', value: '65536' }
