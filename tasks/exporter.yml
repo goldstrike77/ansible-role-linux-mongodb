@@ -59,7 +59,7 @@
     name: 'mongodb_exporter.service'
     enabled: 'yes'
     state: 'restarted'
-    daemon_reload: yes
+    daemon_reload: 'yes'
   async: 1
   poll: 0
   when: mongodb_exporter_conf is changed or mongodb_exporter_systemd is changed

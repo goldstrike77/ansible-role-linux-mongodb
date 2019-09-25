@@ -33,7 +33,7 @@
     dest: '/usr/local/bin/mongod_hot_backup.sh'
     owner: 'mongod'
     group: 'mongod'
-    mode: 0664
+    mode: '0664'
   no_log: true
 
 - name : MongoDB backup job

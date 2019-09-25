@@ -49,7 +49,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_replset`: Cluster name of MongoDB servers that implements replication and automated failover.
 * `mongod_servers`: Member list for ReplicaSet.
 * `mongod_node_role`: Member role for ReplicaSet.
-* `mongod_selinux`: SELinux mongod policy.
 * `mongod_authorization`: A boolean value, Enable or Disable authentication.
 * `mongod_sa_user`: MongoDB Superuser name.
 * `mongod_sa_pass`: MongoDB Superuser password.
@@ -120,7 +119,6 @@ You can also use the group_vars or the host_vars files for setting the variables
     mongod_version: '34'
     mongod_replset: 'demo'
     mongod_node_role: 'replica'
-    mongod_selinux: false
     mongod_authorization: false
     mongod_sa_user: 'sa'
     mongod_sa_pass: 'password'

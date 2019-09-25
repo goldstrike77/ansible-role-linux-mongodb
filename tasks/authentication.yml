@@ -4,8 +4,8 @@
     database: 'admin'
     name: '{{ mongod_sa_user }}'
     password: '{{ mongod_sa_pass }}'
-    roles: userAdminAnyDatabase
-    state: present
+    roles: 'userAdminAnyDatabase'
+    state: 'present'
   no_log: true
   when: ( mongod_replset is not defined ) or ( mongod_replset == 'Non-ReplicaSet' )
 

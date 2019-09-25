@@ -10,11 +10,10 @@
 
 - name: Install the MongoDB packages
   yum:
-    name: '{{ item }}'
+    name: '{{ mongod_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  loop: '{{ mongod_packages|flatten(levels=1) }}'
   register: yum_status
   until: yum_status is succeeded
   retries: 3

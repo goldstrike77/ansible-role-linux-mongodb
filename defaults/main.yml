@@ -5,7 +5,6 @@ mongod_version: '34' # Specify the MongoDB version, minimum 34.
 mongod_replset: 'Non-ReplicaSet' # Cluster name of MongoDB servers that implements replication and automated failover.
 mongod_servers: [] # Member list for ReplicaSet.
 mongod_node_role: 'replica' # Member role for ReplicaSet.
-mongod_selinux: false # SELinux mongod policy.
 mongod_authorization: false # A boolean value, Enable or Disable authentication.
 mongod_sa_user: 'sa' # MongoDB Superuser name.
 mongod_sa_pass: 'password' # MongoDB Superuser password.
