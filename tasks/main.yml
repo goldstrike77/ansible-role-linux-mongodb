@@ -23,14 +23,12 @@
 
 - name: Mongo operation
   block:
+    - name: Include tasks for specific OS
+      include: '{{ ansible_os_family }}.yml'
     - name: Include firewall tasks
       include: 'firewall.yml'
     - name: Straight to getenforce selinux status
       include: 'selinux.yml'
-    - name: Include OS-specific variables
-      include_vars: '{{ ansible_os_family }}.yml'
-    - name: Include tasks for specific OS
-      include: '{{ ansible_os_family }}.yml'
     - name: Install requirement python package
       pip:
         name: '{{ mongod_python_dependent_packages }}'

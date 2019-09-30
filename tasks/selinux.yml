@@ -30,3 +30,15 @@
   poll: 0
   when:
     - mongod_selinux | bool
+
+- name: Allow MongoDB to listen on service port
+  seport:
+    ports: '{{ item }}'
+    proto: 'tcp'
+    setype: 'http_port_t'
+    state: 'present'
+  loop:
+    - '{{ mongod_port }}'
+    - '{{ mongod_exporter_port }}'
+  when:
+    - mongod_selinux | bool
