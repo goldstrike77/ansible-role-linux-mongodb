@@ -77,6 +77,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_arg.maxConns`: The maximum number of simultaneous connections that mongod will accept.
 * `mongod_arg.oplogSizeMB`: The maximum size in megabytes for the replication operation log.
 * `mongod_arg.redactClientLogData`: Prevent writing sensitive data to the diagnostic log by redacting messages of events before they are logged.
+* `mongod_arg.wiredTiger_cacheSizeGB`: Defines the maximum size of the internal cache that WiredTiger will use for all data.
 * `mongod_arg.wiredTiger_checkpointSizeMB`: Checkpoint size.
 * `mongod_arg.wiredTiger_compressors`: Compression library,  snappy / zlib / none.
 * `mongod_arg.wiredTiger_ConcurrentReadTransactions`: Specify the maximum number of concurrent read transactions allowed into the WiredTiger storage engine.
@@ -133,6 +134,7 @@ You can also use the group_vars or the host_vars files for setting the variables
       maxConns: '20000'
       oplogSizeMB: '4096'
       redactClientLogData: true
+      wiredTiger_cacheSizeGB: '10'
       wiredTiger_checkpointSizeMB: '1024'
       wiredTiger_compressors: 'snappy'
       wiredTiger_ConcurrentReadTransactions: '512'
