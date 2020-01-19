@@ -54,15 +54,6 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB data directory.
 
-##### Service Mesh
-* `environments`: Define the service environment.
-* `tags`: Define the service custom label.
-* `exporter_is_install`: Whether to install prometheus exporter.
-* `consul_public_register`: false Whether register a exporter service with public consul client.
-* `consul_public_exporter_token`: Public Consul client ACL token.
-* `consul_public_clients`: List of public consul clients.
-* `consul_public_http_port`: The consul HTTP API port.
-
 #### Backup parameters
 * `mongod_backupset_keep`: # Backup retention cycle in days
 
@@ -86,6 +77,15 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_arg.wiredTiger_prefixCompression`: Enables or disables prefix compression for index data.
 * `mongod_arg.wiredTiger_statisticsLogDelaySecs`: Log statistics to a file in the dbPath on the interval defined by.
 * `mongod_bu_dbs_arg`: Create a business database if defined.
+
+##### Service Mesh
+* `environments`: Define the service environment.
+* `tags`: Define the service custom label.
+* `exporter_is_install`: Whether to install prometheus exporter.
+* `consul_public_register`: false Whether register a exporter service with public consul client.
+* `consul_public_exporter_token`: Public Consul client ACL token.
+* `consul_public_clients`: List of public consul clients.
+* `consul_public_http_port`: The consul HTTP API port.
 
 ### Other parameters
 There are some variables in vars/main.yml:
@@ -147,7 +147,7 @@ You can also use the group_vars or the host_vars files for setting the variables
         user: 'example'
         pass: 'password'
         role: 'readWrite'
-    environments: 'SIT'
+    environments: 'Development'
     tags:
       subscription: 'default'
       owner: 'nobody'
