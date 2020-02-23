@@ -55,10 +55,6 @@
       include: 'authentication.yml'
       when:
         - mongod_authorization | bool
-    - include_tasks: 'register.yml'
-      when:
-        - exporter_is_install | bool
-        - consul_public_register | bool
     - name: Include business database tasks
       include: 'database.yml'
       when:
@@ -66,6 +62,13 @@
         - mongod_authorization | bool
   when:
     - not result.stat.exists
+    - ( mongod_replset is not defined ) or (mongod_replset == 'Non-ReplicaSet') or (( mongod_replset is defined ) and ( mongod_replset != 'Non-ReplicaSet' ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))
+
+- name: Registered with HashiCorp Consul
+  include: 'register.yml'
+  when:
+    - exporter_is_install | bool
+    - consul_public_register | bool
     - ( mongod_replset is not defined ) or (mongod_replset == 'Non-ReplicaSet') or (( mongod_replset is defined ) and ( mongod_replset != 'Non-ReplicaSet' ) and ( mongod_servers|length is not divisibleby 2 ) and ( mongod_servers|length > 2 ))
 
 - name: Replica Set Members check
