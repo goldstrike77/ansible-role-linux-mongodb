@@ -51,6 +51,11 @@ net:
 
 security:
   redactClientLogData: {{ mongod_arg.redactClientLogData | bool | to_json }}
+{% if mongod_arg.enableEncryption | bool %}
+  enableEncryption: true
+  encryptionCipherMode: {{ mongod_arg.encryptionCipherMode | default('AES256-CBC') }}
+  encryptionKeyFile: {{ mongod_path }}/mongod/mongodb.key
+{% endif %}
 
 #operationProfiling:
 

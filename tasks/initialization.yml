@@ -16,7 +16,7 @@
     state: 'present'
     reload: 'yes'
     sysctl_set: 'yes'
-    sysctl_file: /etc/sysctl.d/20-sysctl.conf
+    sysctl_file: '/etc/sysctl.d/20-sysctl.conf'
   with_items:
     - '{{ mongod_kernel_parameters }}'
 
@@ -25,9 +25,9 @@
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
     backup: 'yes'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
+    owner: '{{ item.owner }}'
+    group: '{{ item.owner }}'
+    mode: '{{ item.mode }}'
   with_items:
     - '{{ mongod_conf_scripts }}'
 

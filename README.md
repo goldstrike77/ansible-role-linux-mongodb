@@ -63,6 +63,9 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
+* `mongod_arg.enableEncryption`: A boolean value, whether enabled the MongoDB Data at Rest Encryption.
+* `mongod_arg.encryptionCipherMode`: The cipher mode for decryption. The supported values are AES256-CBC or AES256-GCM.
+* `mongod_arg.encryptionKey`: The encryptionKey character string.
 * `mongod_arg.engine`: Storage Engines, wiredTiger or rocksdb(deprecated in Percona Server for MongoDB 3.6.).
 * `mongod_arg.http`: Enables or disables HTTP Status Interface.
 * `mongod_arg.maxConns`: The maximum number of simultaneous connections that mongod will accept.
@@ -130,6 +133,9 @@ You can also use the group_vars or the host_vars files for setting the variables
     mongod_exporter_port: '9216'
     mongod_arg:
       auditlog: 'syslog'
+      enableEncryption: false
+      encryptionCipherMode: 'AES256-CBC'
+      encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
       engine: 'wiredTiger'
       http: false
       maxConns: '20000'

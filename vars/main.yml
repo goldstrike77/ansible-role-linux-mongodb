@@ -18,9 +18,10 @@ mongod_kernel_parameters:
   - { variable: 'vm.swappiness', value: '10' }
 
 mongod_conf_scripts:
-  - { src: 'mongod.conf.j2', dest: '/etc/mongod.conf' }
-  - { src: 'mongod.sysconfig.j2', dest: '/etc/sysconfig/mongod' }
-  - { src: 'mongod.logrotate.j2', dest: '/etc/logrotate.d/mongod' }
+  - { src: 'mongodb.key.j2', dest: '{{ mongod_path }}/mongod/mongodb.key', mode: '600', owner: 'mongod' }
+  - { src: 'mongod.conf.j2', dest: '/etc/mongod.conf', mode: '644', owner: 'root' }
+  - { src: 'mongod.sysconfig.j2', dest: '/etc/sysconfig/mongod', mode: '644', owner: 'root' }
+  - { src: 'mongod.logrotate.j2', dest: '/etc/logrotate.d/mongod', mode: '644', owner: 'root' }
 
 mongod_audit_log_commands: # https://docs.mongodb.com/manual/reference/audit-message
   - 'addShard'

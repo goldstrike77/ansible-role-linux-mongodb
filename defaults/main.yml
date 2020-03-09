@@ -21,6 +21,9 @@ mongod_exporter_port: '9216' # Prometheus MongoDB Exporter
 # Server System Variables #
 mongod_arg:
   auditlog: 'syslog' # syslog or file
+  enableEncryption: false # A boolean value, whether enabled the MongoDB Data at Rest Encryption.
+  encryptionCipherMode: 'AES256-CBC' # The cipher mode for decryption. The supported values are AES256-CBC or AES256-GCM.
+  encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk=' # The encryptionKey character string [generator by openssl rand -base64 32].
   engine: 'wiredTiger' # wiredTiger or rocksdb
   http: false # HTTP Status Interface
   maxConns: '20000'
