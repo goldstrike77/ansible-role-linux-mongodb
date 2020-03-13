@@ -52,6 +52,7 @@ mongod_arg:
 
 # Service Mesh #
 environments: 'Development' # Define the service environment.
+#tags: # Define the service custom label.
 #  subscription: 'default'
 #  owner: 'nobody'
 #  department: 'Infrastructure'
