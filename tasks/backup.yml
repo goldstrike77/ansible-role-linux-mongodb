@@ -1,4 +1,26 @@
 ---
+- name: Creating Rclone configureation folder.
+  file:
+    dest: '/etc/rclone'
+    state: 'directory'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when:
+    - mongod_backupset_arg.cloud_rsync | bool
+    - mongod_backupset_arg.cloud_drive is defined
+
+- name: Rclone configuration file transfer.
+  template:
+    src: 'rclone.conf.j2'
+    dest: '/etc/rclone/mongod.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  when:
+    - mongod_backupset_arg.cloud_rsync | bool
+    - mongod_backupset_arg.cloud_drive is defined
+
 - name: Backup user password generator
   set_fact:
     mongod_backup_user_passwd: "{{ lookup('password', '' + group_names[-1] + ':backup length=12 chars=ascii_letters,digits') }}"

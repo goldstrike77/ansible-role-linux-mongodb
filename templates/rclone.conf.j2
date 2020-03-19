@@ -1,0 +1,7 @@
+[mongod]
+type = {{ mongod_backupset_arg.cloud_drive }}
+{% if mongod_backupset_arg.cloud_drive == 'azureblob' %}
+account = {{ mongod_backupset_arg.cloud_config.account }}
+key = {{ mongod_backupset_arg.cloud_config.key }}
+endpoint = {{ mongod_backupset_arg.cloud_config.endpoint }}
+{% endif %}

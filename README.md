@@ -54,8 +54,13 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB data directory.
 
-#### Backup parameters
-* `mongod_backupset_keep`: # Backup retention cycle in days
+##### Backup parameters
+* `mongod_backupset_arg.keep`: Backup retention cycle in days.
+* `mongod_backupset_arg.cloud_rsync`: Whether rsync for cloud storage.
+* `mongod_backupset_arg.cloud_drive`: Specify the cloud storage providers.
+* `mongod_backupset_arg.cloud_bwlimit`: Controls the bandwidth limit.
+* `mongod_backupset_arg.cloud_event`: Define transfer events.
+* `mongod_backupset_arg.cloud_config`: Specify the cloud storage configuration.
 
 ##### Listen port
 * `mongod_port`: MongoDB instance listen port.
@@ -121,14 +126,23 @@ Including an example of how to use your role (for instance, with variables passe
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
 
-    mongod_version: '34'
+    mongod_version: '36'
     mongod_replset: 'demo'
     mongod_node_role: 'replica'
     mongod_authorization: false
     mongod_sa_user: 'sa'
     mongod_sa_pass: 'password'
     mongod_path: '/data'
-    mongod_backupset_keep: '7'
+    mongod_backupset_arg:
+      keep: '7'
+      cloud_rsync: false
+      cloud_drive: 'azureblob'
+      cloud_bwlimit: '10M'
+      cloud_event: 'sync'
+      cloud_config:
+        account: 'blobuser'
+        key: 'base64encodedkey=='
+        endpoint: 'blob.core.chinacloudapi.cn'
     mongod_port: '27017'
     mongod_exporter_port: '9216'
     mongod_arg:

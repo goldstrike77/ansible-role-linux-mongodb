@@ -4,6 +4,7 @@ TAR=/bin/tar
 MONGO=/bin/mongo
 DATE=`/bin/date '+%Y%m%d_%H%M%S'`
 FIND=/bin/find
+RCLONE=/bin/rclone
 
 if [ ! -d {{ mongod_path }}/backup/mongod/temp ]; then
   echo "Backup destination folder: {{ mongod_path }}/backup/mongod/temp does not exist."
@@ -21,6 +22,11 @@ if [ $? = 0 ]; then
   $TAR zcvfP {{ mongod_path }}/backup/mongod/full_$DATE.tar.gz {{ mongod_path }}/backup/mongod/temp/* --remove-files
 fi
 
-$FIND {{ mongod_path }}/backup/mongod -type f -mtime +{{ mongod_backupset_keep }} -exec $RM -fr {} \;
+$FIND {{ mongod_path }}/backup/mongod -type f -mtime +{{ mongod_backupset_arg.keep }} -exec $RM -fr {} \;
 
+{% if mongod_backupset_arg.cloud_rsync | bool and mongod_backupset_arg.cloud_drive is defined %}
+# Rsync for cloud storage
+$RCLONE --verbose --config="/etc/rclone/mongod.conf" mkdir mongod:{{ ansible_hostname | lower }}
+$RCLONE --bwlimit="{{ mongod_backupset_arg.cloud_bwlimit | default('10M') }}" --verbose --config="/etc/rclone/mongod.conf" {{ mongod_backupset_arg.cloud_event | default('sync') }} {{ mongod_path }}/backup/mongod mongod:{{ ansible_hostname | lower }}/mongod
+{% endif %}
 exit 0
