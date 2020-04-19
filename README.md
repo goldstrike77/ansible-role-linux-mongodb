@@ -134,24 +134,33 @@ There are some variables in vars/main.yml:
 * `mongod_audit_log_commands`: Audit event actions by commands.
 
 ## Dependencies
-There are no dependencies on other roles.
+- Ansible versions >= 2.8
+- Python >= 2.7.5
 
 ## Example
 
 ### Hosts inventory file
 See tests/inventory for an example.
 
-    node01 ansible_host='192.168.1.10' mongod_node_role='arbiter' mongod_is_install='true'
-    node02 ansible_host='192.168.1.11' mongod_node_role='replica' mongod_is_install='true'
-    node03 ansible_host='192.168.1.12' mongod_node_role='replica' mongod_is_install='true'
+    [MongoDB]
+    node01 ansible_host='192.168.1.10'
+    node02 ansible_host='192.168.1.11'
+    node03 ansible_host='192.168.1.12'
+
+    [MongoDB:vars]
+    mongod_is_install='true'
+    mongod_version='36'
+    mongod_replset='ReplicaSet'
 
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: all
+    - hosts: MongoDB
       roles:
          - role: ansible-role-linux-mongodb
            mongod_is_install: true
+           mongod_version: '36'
+           mongod_replset: 'ReplicaSet'
 
 ### Combination of group vars and playbook
 You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
