@@ -14,6 +14,7 @@ mongod_system_type: 'autopilot' # Define instance parameters.
 # Backup parameters #
 mongod_backupset_arg:
   keep: '7' # Backup retention cycle in days.
+  encryptkey: 'Yf3ejyv4kjZf' # BackupSet encryption key, Decrypt by [openssl aes-256-cbc -d -k passwd -salt -in file.tar.gz | tar xzvfP -].
   cloud_rsync: false # Whether rsync for cloud storage.
   cloud_drive: 'azureblob' # Specify the cloud storage providers.
   cloud_bwlimit: '10M' # Controls the bandwidth limit.
@@ -43,7 +44,7 @@ mongod_arg:
 #  rocksdb_crashSafeCounters: 'false'
 #  rocksdb_maxWriteMBPerSec: '1024'
 #  rocksdb_singleDeleteIndex: 'false'
-  wiredTiger_cacheSizeGB: '{% if mongod_system_type == "small" or ansible_memtotal_mb <= 2048 %}0.25{% else %}cacheSizeGB: {{ (( ansible_memtotal_mb - 1024 ) / 2048 ) | round(2,"ceil") }}{% endif %}'
+  wiredTiger_cacheSizeGB: '{% if mongod_system_type == "small" or ansible_memtotal_mb <= 2048 %}0.25{% else %}{{ (( ansible_memtotal_mb - 1024 ) / 2048 ) | round(2,"ceil") }}{% endif %}'
   wiredTiger_checkpointSizeMB: '1024'
   wiredTiger_compressors: 'snappy' # snappy / zlib / none
   wiredTiger_ConcurrentReadTransactions: '512'

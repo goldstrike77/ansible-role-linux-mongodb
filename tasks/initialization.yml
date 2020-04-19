@@ -5,7 +5,7 @@
     state: 'directory'
     owner: 'mongod'
     group: 'mongod'
-    mode: '0755'
+    mode: '0750'
   with_items:
     - '{{ mongod_folder }}'
 

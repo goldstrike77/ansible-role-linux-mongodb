@@ -19,7 +19,7 @@ EOF
 
 echo $?
 if [ $? = 0 ]; then
-  $TAR zcvfP {{ mongod_path }}/backup/mongod/full_$DATE.tar.gz {{ mongod_path }}/backup/mongod/temp/* --remove-files
+  $TAR zcvfP - {{ mongod_path }}/backup/mongod/temp/* --remove-files | openssl aes-256-cbc -salt -k '{{ mongod_backupset_arg.mongod_backupset_arg | default("changeme") }}' -out {{ mongod_path }}/backup/mongod/full_$DATE.tar.gz
 fi
 
 $FIND {{ mongod_path }}/backup/mongod -type f -mtime +{{ mongod_backupset_arg.keep }} -exec $RM -fr {} \;

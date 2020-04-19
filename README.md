@@ -26,7 +26,36 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs  PSMDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
+This Ansible role installs PSMDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
+
+- Installation type
+  - Standalone.
+  - Replica Set.
+- Configuration
+  - Storage engine cache, Index, Connections and other general parameters.
+  - Networking and Firewall.
+  - Resource limiting.
+  - Cluster member relationship.
+  - Customized database.
+  - Privilege management.
+- Backup
+  - Scheduled fully backups.
+  - Compressed backups.
+  - Uninterrupted transaction processing during backups.
+  - Cloud storage backups.
+- Monitoring
+  - Server Status metrics.
+  - Replica Set metrics.
+  - Replication Oplog metrics.
+  - WiredTiger storage-engine metrics.
+  - Top Metrics per collection.
+- Secure Benchmark
+  - Transport data encryption at rest.
+  - Encrypted backups.
+  - Audit logging.
+  - Streaming the logs to syslog.
+  - File System Permissions.
+  - Authentication managerment.
 
 ## Requirements
 ### Operating systems
@@ -56,6 +85,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Backup parameters
 * `mongod_backupset_arg.keep`: Backup retention cycle in days.
+* `mongod_backupset_arg.encryptkey`: BackupSet encryption key.
 * `mongod_backupset_arg.cloud_rsync`: Whether rsync for cloud storage.
 * `mongod_backupset_arg.cloud_drive`: Specify the cloud storage providers.
 * `mongod_backupset_arg.cloud_bwlimit`: Controls the bandwidth limit.
@@ -135,6 +165,7 @@ You can also use the group_vars or the host_vars files for setting the variables
     mongod_path: '/data'
     mongod_backupset_arg:
       keep: '7'
+      encryptkey: 'Yf3ejyv4kjZf'
       cloud_rsync: false
       cloud_drive: 'azureblob'
       cloud_bwlimit: '10M'
