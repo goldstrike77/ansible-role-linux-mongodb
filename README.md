@@ -148,7 +148,6 @@ See tests/inventory for an example.
     node03 ansible_host='192.168.1.12'
 
     [MongoDB:vars]
-    mongod_is_install='true'
     mongod_version='36'
     mongod_replset='ReplicaSet'
 
@@ -158,7 +157,6 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: MongoDB
       roles:
          - role: ansible-role-linux-mongodb
-           mongod_is_install: true
            mongod_version: '36'
            mongod_replset: 'ReplicaSet'
 
