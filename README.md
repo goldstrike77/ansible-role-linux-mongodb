@@ -28,6 +28,14 @@ __Table of Contents__
 ## Overview
 This Ansible role installs PSMDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
 
+Replication is referred to the process of ensuring that the same data is available on more than one Mongo DB Server. This is sometimes required for the purpose of increasing data availability.
+
+Because if your main MongoDB Server goes down for any reason, there will be no access to the data. But if you had the data replicated to another server at regular intervals, you will be able to access the data from another server even if the primary server fails.
+
+Another purpose of replication is the possibility of load balancing. If there are many users connecting to the system, instead of having everyone connect to one system, users can be connected to multiple servers so that there is an equal distribution of the load.
+
+In MongoDB, multiple MongDB Servers are grouped in sets called Replica sets. The Replica set will have a primary server which will accept all the write operation from clients. All other instances added to the set after this will be called the secondary instances which can be used primarily for all read operations.
+
 - Installation type
   - Standalone.
   - Replica Set.
@@ -50,12 +58,13 @@ This Ansible role installs PSMDB on linux operating system, including establishi
   - WiredTiger storage-engine metrics.
   - Top Metrics per collection.
 - Secure Benchmark
-  - Transport data encryption at rest.
-  - Encrypted backups.
-  - Audit logging.
-  - Streaming the logs to syslog.
-  - File System Permissions.
-  - Authentication managerment.
+  - Introduces a native encryption option for the WiredTiger storage engine, It protects the privacy of your information, prevents data breaches and helps meet regulatory requirements.
+  - Encrypt/decrypt local or streaming backup in order to add another layer of protection to the backups.
+  - File system permissions protected when potential vulnerability exist.
+  - Authentication managerment makes IT infrastructures more secure by leveraging existing security rules and processes.
+  - Auditing provides monitoring and logging of connection and query activity that were performed on MySQL server. Information will be transferred to syslog like Graylog or ELK stack.
+- Failover
+  - Replica sets provide enough redundancy to survive most network partitions and other system failures. These sets also have sufficient capacity for many distributed read operations. Replica sets should always have an odd number of members. This ensures that elections will proceed smoothly.
 
 ## Requirements
 ### Operating systems
