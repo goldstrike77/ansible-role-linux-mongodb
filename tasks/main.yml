@@ -33,11 +33,11 @@
       pip:
         name: '{{ mongod_python_dependent_packages }}'
         state: 'forcereinstall'
-        extra_args: '-i {{ mongod_pypi_url }}'
+        extra_args: '--default-timeout=120 --ignore-installed -i https://{{ mongod_pypi_url }}/simple --trusted-host {{ mongod_pypi_url }}'
       register: mongod_python_status
       until: mongod_python_status is succeeded
       retries: 5
-      delay: 5
+      delay: 2
     - name: Include initialization tasks
       include: 'initialization.yml'
     - name: Include replica sets tasks

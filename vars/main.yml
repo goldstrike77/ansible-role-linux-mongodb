@@ -3,7 +3,7 @@ mongod_python_dependent_packages:
   - 'pip'
   - 'pymongo'
 
-mongod_pypi_url: 'https://mirrors.aliyun.com/pypi/simple/'
+mongod_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 mongod_folder:
   - '{{ mongod_path }}/mongod'
