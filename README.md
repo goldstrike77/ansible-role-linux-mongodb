@@ -198,9 +198,7 @@ mongod_port: '27017'
 mongod_exporter_port: '9216'
 mongod_arg:
   auditlog: 'syslog'
-  enableEncryption: false
   encryptionCipherMode: 'AES256-CBC'
-  encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
   engine: 'wiredTiger'
   http: false
   maxConns: '20000'
