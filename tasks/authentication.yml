@@ -4,6 +4,8 @@
     database: 'admin'
     name: '{{ mongod_sa_user }}'
     password: '{{ mongod_sa_pass }}'
+    login_host: '{{ ansible_default_ipv4.address }}'
+    login_port: '{{ mongod_port }}'
     roles: 'userAdminAnyDatabase'
     state: 'present'
   no_log: true
@@ -15,6 +17,8 @@
     database: 'admin'
     name: '{{ mongod_sa_user }}'
     password: '{{ mongod_sa_pass }}'
+    login_host: '{{ ansible_default_ipv4.address }}'
+    login_port: '{{ mongod_port }}'
     roles: 'root'
     state: 'present'
   no_log: true
@@ -25,13 +29,14 @@
 
 - name: Ensure authentication is enabled for MongoDB
   lineinfile:
-    state: present
-    dest: /etc/mongod.conf
+    state: 'present'
+    dest: '/etc/mongod.conf'
     insertafter: 'security:'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  with_items:
+  loop:
     - { regexp: '^  authorization:', line: '  authorization: enabled' }
+  when: item.create | default(true) | bool
 
 - name: MongoDB authentication Keyfiles transfer
   template:
@@ -47,16 +52,38 @@
 
 - name: Ensure Keyfiles configured for MongoDB
   lineinfile:
-    state: present
-    dest: /etc/mongod.conf
+    state: 'present'
+    dest: '/etc/mongod.conf'
     insertafter: 'security:'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  with_items:
+  loop:
     - { regexp: '^  keyFile:', line: '  keyFile: {{ mongod_path }}/mongod/authentication.key' }
   when:
     - mongod_replset is defined
     - mongod_replset != 'Non-ReplicaSet'
+
+- name: Include certificate tasks
+  include: 'certificates.yml'
+  when: mongod_ssl | bool
+
+- name: Configure MongoDB to support TLS/SSL.
+  blockinfile:
+    state: 'present'
+    path: '/etc/mongod.conf'
+    insertafter: 'net:'
+    block: |2
+        ssl:
+          mode: requireSSL
+          PEMKeyFile: {{ mongod_cert_path }}/certificate.pem
+          clusterFile: {{ mongod_cert_path }}/certificate.pem
+          CAFile: {{ mongod_cert_path }}/ca-cert.pem
+          clusterCAFile: {{ mongod_cert_path }}/ca-cert.pem
+          allowConnectionsWithoutCertificates: true
+          allowInvalidCertificates: true
+          allowInvalidHostnames: true
+          disabledProtocols: TLS1_0,TLS1_1
+  when: mongod_ssl | bool
 
 - name: Ensure MongoDB service is reload
   systemd:

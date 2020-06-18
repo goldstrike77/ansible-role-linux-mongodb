@@ -42,7 +42,7 @@ processManagement:
 # network interfaces
 net:
   port: {{ mongod_port }}
-  bindIp: 0.0.0.0
+  bindIp: {{ ansible_default_ipv4.address }}
 {% if mongod_version == '34' %}
   http:
     enabled: {{ mongod_arg.http | bool | to_json }}

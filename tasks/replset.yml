@@ -1,11 +1,10 @@
 ---
 - name: MongoDB replication configuration
   mongodb_replication:
-    login_host: 'localhost'
+    login_host: '{{ ansible_default_ipv4.address }}'
     login_port: '{{ mongod_port }}'
     replica_set: '{{ mongod_replset | upper }}'
     host_name: "{{ item }}"
     host_port: '{{ mongod_port }}'
     host_type: "{{ mongod_node_role }}"
-  with_items:
-    - '{{ mongod_servers }}'
+  loop: '{{ mongod_servers }}'

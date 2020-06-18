@@ -7,9 +7,10 @@ mongod_servers: [] # Member list for ReplicaSet.
 mongod_node_role: 'replica' # Member role for ReplicaSet.
 mongod_authorization: false # A boolean value, Enable or Disable authentication.
 mongod_sa_user: 'sa' # MongoDB Superuser name.
-mongod_sa_pass: 'password' # MongoDB Superuser password.
+mongod_sa_pass: 'changeme' # MongoDB Superuser password.
 mongod_path: '/data' # Specify the MongoDB data directory.
 mongod_system_type: 'autopilot' # Define instance parameters.
+mongod_ssl: false # A boolean value, whether Encrypting client and cluster communications.
 
 # Backup parameters #
 mongod_backupset_arg:
@@ -57,8 +58,8 @@ mongod_arg:
 #mongod_bu_dbs_arg: # example only
 #  - dbs: 'example'
 #    user: 'example'
-#    pass: 'password'
-#    role: 'readWrite'
+#    pass: 'changeme'
+#    role: 'dbOwner'
 
 # Service Mesh #
 environments: 'Development' # Define the service environment.

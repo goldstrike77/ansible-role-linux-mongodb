@@ -53,8 +53,7 @@
       when: exporter_is_install | bool
     - name: Include authentication tasks
       include: 'authentication.yml'
-      when:
-        - mongod_authorization | bool
+      when: mongod_authorization | bool
     - name: Include business database tasks
       include: 'database.yml'
       when:

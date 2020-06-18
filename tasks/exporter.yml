@@ -9,7 +9,9 @@
     database: 'admin'
     name: 'prometheus'
     password: '{{ mongodb_exporter_user_passwd }}'
-    state: present
+    login_host: '{{ ansible_default_ipv4.address }}'
+    login_port: '{{ mongod_port }}'
+    state: 'present'
     roles:
       - db: admin
         role: clusterMonitor
@@ -26,7 +28,9 @@
     database: 'admin'
     name: 'prometheus'
     password: '{{ mongodb_exporter_user_passwd }}'
-    state: present
+    login_host: '{{ ansible_default_ipv4.address }}'
+    login_port: '{{ mongod_port }}'
+    state: 'present'
     roles:
       - db: admin
         role: clusterMonitor
@@ -41,7 +45,7 @@
     dest: '/etc/default/mongod_exporter'
     owner: 'root'
     group: 'root'
-    mode: '0644'
+    mode: '0640'
   no_log: true
   register: mongodb_exporter_conf
 

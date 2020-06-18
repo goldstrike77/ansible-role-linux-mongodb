@@ -2,8 +2,11 @@
 mongod_python_dependent_packages:
   - 'pip'
   - 'pymongo'
+  - 'cryptography'
 
 mongod_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
+
+mongod_cert_path: '/etc/mongod/ssl'
 
 mongod_folder:
   - '{{ mongod_path }}/mongod'

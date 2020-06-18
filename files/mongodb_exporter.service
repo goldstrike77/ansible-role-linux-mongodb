@@ -13,7 +13,8 @@ EnvironmentFile=-/etc/default/mongod_exporter
 User=mongod
 ExecStart=/usr/local/percona/pmm-client/mongodb_exporter $MONGOD_EXPORTER_OPTS
 Restart=on-failure
-
+StandardOutput=null
+StandardError=null
 
 [Install]
 

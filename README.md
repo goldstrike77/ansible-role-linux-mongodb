@@ -26,15 +26,7 @@ __Table of Contents__
 - [Contributors](#Contributors)
 
 ## Overview
-This Ansible role installs PSMDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features.
-
-Replication is referred to the process of ensuring that the same data is available on more than one Mongo DB Server. This is sometimes required for the purpose of increasing data availability.
-
-Because if your main MongoDB Server goes down for any reason, there will be no access to the data. But if you had the data replicated to another server at regular intervals, you will be able to access the data from another server even if the primary server fails.
-
-Another purpose of replication is the possibility of load balancing. If there are many users connecting to the system, instead of having everyone connect to one system, users can be connected to multiple servers so that there is an equal distribution of the load.
-
-In MongoDB, multiple MongDB Servers are grouped in sets called Replica sets. The Replica set will have a primary server which will accept all the write operation from clients. All other instances added to the set after this will be called the secondary instances which can be used primarily for all read operations.
+MongoDB is a cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. Percona Server for MongoDB is a free and open-source drop-in replacement for MongoDB Community Edition. It offers all the features and benefits of MongoDB Community Edition, plus additional enterprise-grade functionality.
 
 - Installation type
   - Standalone.
@@ -59,16 +51,19 @@ In MongoDB, multiple MongDB Servers are grouped in sets called Replica sets. The
   - Top Metrics per collection.
 - Secure Benchmark
   - Introduces a native encryption option for the WiredTiger storage engine, It protects the privacy of your information, prevents data breaches and helps meet regulatory requirements.
+  - Configure TLS/SSL to encrypt client and cluster communications.
   - Encrypt/decrypt local or streaming backup in order to add another layer of protection to the backups.
-  - File system permissions protected when potential vulnerability exist.
-  - Authentication managerment makes IT infrastructures more secure by leveraging existing security rules and processes.
-  - Auditing provides monitoring and logging of connection and query activity that were performed on MySQL server. Information will be transferred to syslog like Graylog or ELK stack.
+  - File system permissions protected when potential vulnerability exists.
+  - Authentication management makes IT infrastructures more secure by leveraging existing security rules and processes.
+  - Auditing provides monitoring and logging of connection and query activity that was performed on MongoDB server. Information will be transferred to SIEM subsection like Graylog or ELK stack.
 - Failover
   - Replica sets provide enough redundancy to survive most network partitions and other system failures. These sets also have sufficient capacity for many distributed read operations. Replica sets should always have an odd number of members. This ensures that elections will proceed smoothly.
 
+Replication is referred to the process of ensuring that the same data is available on more than one Mongo DB Server. This is sometimes required for the purpose of increasing data availability. In MongoDB, multiple MongoDB Servers are grouped in sets called Replica sets. The Replica set will have a primary server which will accept all the write operation from clients. All other instances added to the set after this will be called the secondary instances which can be used primarily for all read operations. Because if your main MongoDB Server goes down for any reason, there will be no access to the data. But if you had the data replicated to another server at regular intervals, you will be able to access the data from another server even if the primary server fails. Another purpose of replication is the possibility of load balancing. If there are many users connecting to the system, instead of having everyone connect to one system, users can be connected to multiple servers so that there is an equal distribution of the load.
+
 ## Requirements
 ### Operating systems
-This role will work on the following operating systems:
+This Ansible role installs Percona Server for MongoDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Will work on the following operating systems:
 
   * CentOS 7
 
@@ -91,6 +86,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_sa_user`: MongoDB Superuser name.
 * `mongod_sa_pass`: MongoDB Superuser password.
 * `mongod_path`: Specify the MongoDB data directory.
+* `mongod_system_type`: Define instance parameters.
+* `mongod_ssl`: A boolean value, whether Encrypting client and cluster communications.
 
 ##### Backup parameters
 * `mongod_backupset_arg.keep`: Backup retention cycle in days.
@@ -129,7 +126,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `environments`: Define the service environment.
 * `tags`: Define the service custom label.
 * `exporter_is_install`: Whether to install prometheus exporter.
-* `consul_public_register`: false Whether register a exporter service with public consul client.
+* `consul_public_register`: Whether register a exporter service with public consul client.
 * `consul_public_exporter_token`: Public Consul client ACL token.
 * `consul_public_http_prot`: The consul Hypertext Transfer Protocol.
 * `consul_public_clients`: List of public consul clients.
@@ -163,72 +160,78 @@ See tests/inventory for an example.
 ### Vars in role configuration
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: MongoDB
-      roles:
-         - role: ansible-role-linux-mongodb
-           mongod_version: '36'
-           mongod_replset: 'ReplicaSet'
+```yaml
+- hosts: MongoDB
+  roles:
+     - role: ansible-role-linux-mongodb
+       mongod_version: '36'
+       mongod_replset: 'ReplicaSet'
+```
 
 ### Combination of group vars and playbook
-You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`
+You can also use the group_vars or the host_vars files for setting the variables needed for this role. File you should change: group_vars/all or host_vars/`group_name`.
 
-    mongod_version: '36'
-    mongod_replset: 'demo'
-    mongod_node_role: 'replica'
-    mongod_authorization: false
-    mongod_sa_user: 'sa'
-    mongod_sa_pass: 'password'
-    mongod_path: '/data'
-    mongod_backupset_arg:
-      keep: '7'
-      encryptkey: 'Yf3ejyv4kjZf'
-      cloud_rsync: false
-      cloud_drive: 'azureblob'
-      cloud_bwlimit: '10M'
-      cloud_event: 'sync'
-      cloud_config:
-        account: 'blobuser'
-        key: 'base64encodedkey=='
-        endpoint: 'blob.core.chinacloudapi.cn'
-    mongod_port: '27017'
-    mongod_exporter_port: '9216'
-    mongod_arg:
-      auditlog: 'syslog'
-      enableEncryption: false
-      encryptionCipherMode: 'AES256-CBC'
-      encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
-      engine: 'wiredTiger'
-      http: false
-      maxConns: '20000'
-      oplogSizeMB: '4096'
-      redactClientLogData: true
-      wiredTiger_cacheSizeGB: '10'
-      wiredTiger_checkpointSizeMB: '1024'
-      wiredTiger_compressors: 'snappy'
-      wiredTiger_ConcurrentReadTransactions: '512'
-      wiredTiger_ConcurrentWriteTransactions: '512'
-      wiredTiger_directoryForIndexes: true
-      wiredTiger_prefixCompression: true
-      wiredTiger_statisticsLogDelaySecs: '0'
-    mongod_bu_dbs_arg:
-      - dbs: 'example'
-        user: 'example'
-        pass: 'password'
-        role: 'readWrite'
-    environments: 'Development'
-    tags:
-      subscription: 'default'
-      owner: 'nobody'
-      department: 'Infrastructure'
-      organization: 'The Company'
-      region: 'IDC01'
-    exporter_is_install: false
-    consul_public_register: false
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_http_prot: 'https'
-    consul_public_http_port: '8500'
-    consul_public_clients:
-      - '127.0.0.1'
+```yaml
+mongod_version: '36'
+mongod_replset: 'demo'
+mongod_node_role: 'replica'
+mongod_authorization: false
+mongod_sa_user: 'sa'
+mongod_sa_pass: 'changeme'
+mongod_path: '/data'
+mongod_system_type: 'autopilot'
+mongod_ssl: false
+mongod_backupset_arg:
+  keep: '7'
+  encryptkey: 'Yf3ejyv4kjZf'
+  cloud_rsync: false
+  cloud_drive: 'azureblob'
+  cloud_bwlimit: '10M'
+  cloud_event: 'sync'
+  cloud_config:
+    account: 'blobuser'
+    key: 'base64encodedkey=='
+    endpoint: 'blob.core.chinacloudapi.cn'
+mongod_port: '27017'
+mongod_exporter_port: '9216'
+mongod_arg:
+  auditlog: 'syslog'
+  enableEncryption: false
+  encryptionCipherMode: 'AES256-CBC'
+  encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
+  engine: 'wiredTiger'
+  http: false
+  maxConns: '20000'
+  oplogSizeMB: '4096'
+  redactClientLogData: true
+  wiredTiger_cacheSizeGB: '10'
+  wiredTiger_checkpointSizeMB: '1024'
+  wiredTiger_compressors: 'snappy'
+  wiredTiger_ConcurrentReadTransactions: '512'
+  wiredTiger_ConcurrentWriteTransactions: '512'
+  wiredTiger_directoryForIndexes: true
+  wiredTiger_prefixCompression: true
+  wiredTiger_statisticsLogDelaySecs: '0'
+mongod_bu_dbs_arg:
+  - dbs: 'example'
+    user: 'example'
+    pass: 'changeme'
+    role: 'dbOwner'
+environments: 'Development'
+tags:
+  subscription: 'default'
+  owner: 'nobody'
+  department: 'Infrastructure'
+  organization: 'The Company'
+  region: 'IDC01'
+exporter_is_install: false
+consul_public_register: false
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+consul_public_http_prot: 'https'
+consul_public_http_port: '8500'
+consul_public_clients:
+  - '127.0.0.1'
+```
 
 ## License
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)

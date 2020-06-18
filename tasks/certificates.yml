@@ -1,0 +1,62 @@
+---
+- name: Check private key exists.
+  stat:
+    path: '{{ mongod_cert_path }}/server.key'
+  register: check_cert_keys
+
+- name: Certificate Signing operation.
+  block:
+    - name: Creating Certificate folder.
+      file:
+        dest: '{{ mongod_cert_path }}'
+        state: 'directory'
+        owner: 'mongod'
+        mode: '1750'
+    - name: Selfsigned CA file transfer.
+      copy:
+        src: 'ssl/{{ item }}'
+        dest: '{{ mongod_cert_path }}/{{ item }}'
+        owner: 'mongod'
+        mode: '640'
+      loop:
+        - 'ca-cert.pem'
+        - 'ca-key.pem'
+    - name: Generate an OpenSSL private key.
+      openssl_privatekey:
+        path: '{{ mongod_cert_path }}/server.key'
+        select_crypto_backend: 'cryptography'
+        size: '4096'
+        type: 'RSA'
+        owner: 'root'
+        mode: '0644'
+        state: 'present'
+    - name: Generate an OpenSSL Certificate Signing Request.
+      openssl_csr:
+        path: '{{ mongod_cert_path }}/server.csr'
+        privatekey_path: '{{ mongod_cert_path }}/server.key'
+        select_crypto_backend: 'cryptography'
+        common_name: 'Server'
+        subject_alt_name:
+          - 'DNS:{{ ansible_hostname }}'
+          - 'DNS:{{ ansible_fqdn }}'
+          - 'DNS:{{ ansible_default_ipv4.address }}'
+        owner: 'root'
+        mode: '0644'
+        state: 'present'
+    - name: Generate an OpenSSL certificate signed with your own CA certificate.
+      openssl_certificate:
+        path: '{{ mongod_cert_path }}/server.crt'
+        csr_path: '{{ mongod_cert_path }}/server.csr'
+        ownca_path: '{{ mongod_cert_path }}/ca-cert.pem'
+        ownca_privatekey_path: '{{ mongod_cert_path }}/ca-key.pem'
+        select_crypto_backend: 'cryptography'
+        ownca_not_after: '+7305d'
+        provider: 'ownca'
+        owner: 'root'
+        mode: '0644'
+        state: 'present'
+    - name: Assemble the certificate and private key.
+      shell: 'cat {{ mongod_cert_path }}/server.crt {{ mongod_cert_path }}/server.key >> {{ mongod_cert_path }}/certificate.pem'
+      become: 'yes'
+      become_user: 'mongod'
+  when: not check_cert_keys.stat.exists or check_cert_keys.stat.size == 0
