@@ -88,6 +88,8 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 * `mongod_path`: Specify the MongoDB data directory.
 * `mongod_system_type`: Define instance parameters.
 * `mongod_ssl`: A boolean value, whether Encrypting client and cluster communications.
+* `mongod_encryption`: A boolean value, whether enabled the WiredTiger storage Data at Rest Encryption.
+* `mongod_encryptionKey`: The encryptionKey character string [generator by openssl rand -base64 32].
 
 ##### Backup parameters
 * `mongod_backupset_arg.keep`: Backup retention cycle in days.
@@ -104,9 +106,7 @@ There are some variables in defaults/main.yml which can (Or needs to) be overrid
 
 ##### Server System Variables
 * `mongod_arg.auditlog`: Enables auditing and specifies where to send audit events.
-* `mongod_arg.enableEncryption`: A boolean value, whether enabled the MongoDB Data at Rest Encryption.
 * `mongod_arg.encryptionCipherMode`: The cipher mode for decryption. The supported values are AES256-CBC or AES256-GCM.
-* `mongod_arg.encryptionKey`: The encryptionKey character string.
 * `mongod_arg.engine`: Storage Engines, wiredTiger or rocksdb(deprecated in Percona Server for MongoDB 3.6.).
 * `mongod_arg.http`: Enables or disables HTTP Status Interface.
 * `mongod_arg.maxConns`: The maximum number of simultaneous connections that mongod will accept.
@@ -181,6 +181,8 @@ mongod_sa_pass: 'changeme'
 mongod_path: '/data'
 mongod_system_type: 'autopilot'
 mongod_ssl: false
+mongod_encryption: false
+mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk='
 mongod_backupset_arg:
   keep: '7'
   encryptkey: 'Yf3ejyv4kjZf'

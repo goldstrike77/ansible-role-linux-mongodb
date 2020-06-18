@@ -11,6 +11,8 @@ mongod_sa_pass: 'changeme' # MongoDB Superuser password.
 mongod_path: '/data' # Specify the MongoDB data directory.
 mongod_system_type: 'autopilot' # Define instance parameters.
 mongod_ssl: false # A boolean value, whether Encrypting client and cluster communications.
+mongod_encryption: false # A boolean value, whether enabled the WiredTiger storage Data at Rest Encryption.
+mongod_encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk=' # The encryptionKey character string [generator by openssl rand -base64 32].
 
 # Backup parameters #
 mongod_backupset_arg:
@@ -32,9 +34,7 @@ mongod_exporter_port: '9216' # Prometheus MongoDB Exporter
 # Server System Variables #
 mongod_arg:
   auditlog: 'syslog' # syslog or file
-  enableEncryption: false # A boolean value, whether enabled the MongoDB Data at Rest Encryption.
   encryptionCipherMode: 'AES256-CBC' # The cipher mode for decryption. The supported values are AES256-CBC or AES256-GCM.
-  encryptionKey: 'GvAjQsuMHn/fMyv570tiyFi6kGf3SbSidFDg4KRy6sk=' # The encryptionKey character string [generator by openssl rand -base64 32].
   engine: 'wiredTiger' # wiredTiger or rocksdb
   http: false # HTTP Status Interface
   maxConns: '20000'
