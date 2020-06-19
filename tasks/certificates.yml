@@ -40,6 +40,7 @@
           - 'DNS:{{ ansible_hostname }}'
           - 'DNS:{{ ansible_fqdn }}'
           - 'DNS:{{ ansible_default_ipv4.address }}'
+          - 'IP:{{ ansible_default_ipv4.address }}'
         owner: 'root'
         mode: '0644'
         state: 'present'
