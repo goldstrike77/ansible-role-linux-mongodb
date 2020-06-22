@@ -13,7 +13,7 @@ else
   $RM -fr {{ mongod_path }}/backup/mongod/temp/*
 fi
 
-$MONGO -u "backup" -p "{{ mongod_backup_user_passwd }}" --authenticationDatabase "admin" admin << EOF
+$MONGO --host {{ ansible_default_ipv4.address }} --port {{ mongod_port }}{% if mongod_ssl | bool %} --ssl --sslAllowInvalidHostnames --sslAllowInvalidCertificates{% endif %} -u "backup" -p "{{ mongod_backup_user_passwd }}" --authenticationDatabase "admin" admin << EOF
   db.runCommand({createBackup: 1, backupDir: "{{ mongod_path }}/backup/mongod/temp"});
 EOF
 
