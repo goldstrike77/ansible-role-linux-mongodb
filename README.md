@@ -10,6 +10,7 @@ ___
 __Table of Contents__
 
 - [Overview](#overview)
+- [Task Specifications](#Task-Specifications)
 - [Requirements](#requirements)
   * [Operating systems](#operating-systems)
   * [Mongo Versions](#MongoDB-versions)
@@ -28,6 +29,7 @@ __Table of Contents__
 ## Overview
 MongoDB is a cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. Percona Server for MongoDB is a free and open-source drop-in replacement for MongoDB Community Edition. It offers all the features and benefits of MongoDB Community Edition, plus additional enterprise-grade functionality.
 
+## Task Specifications
 - Installation type
   - Standalone.
   - Replica Set.
@@ -51,11 +53,11 @@ MongoDB is a cross-platform document-oriented database program. Classified as a 
   - Top Metrics per collection.
 - Secure Benchmark
   - Introduces a native encryption option for the WiredTiger storage engine, It protects the privacy of your information, prevents data breaches and helps meet regulatory requirements.
-  - Configure TLS/SSL to encrypt client and cluster communications.
+  - Supports secure (encrypted) connections between clients and the server using the Transport Layer Security (TLS) protocol.
   - Encrypt/decrypt local or streaming backup in order to add another layer of protection to the backups.
   - File system permissions protected when potential vulnerability exists.
   - Authentication management makes IT infrastructures more secure by leveraging existing security rules and processes.
-  - Auditing provides monitoring and logging of connection and query activity that was performed on MongoDB server. Information will be transferred to SIEM subsection like Graylog or ELK stack.
+  - Auditing provides monitoring and logging of connection and query activity that was performed on the MongoDB server. Information will be transferred to the SIEM subsection like Graylog or ELK stack.
 - Failover
   - Replica sets provide enough redundancy to survive most network partitions and other system failures. These sets also have sufficient capacity for many distributed read operations. Replica sets should always have an odd number of members. This ensures that elections will proceed smoothly.
 
@@ -63,7 +65,7 @@ Replication is referred to the process of ensuring that the same data is availab
 
 ## Requirements
 ### Operating systems
-This Ansible role installs Percona Server for MongoDB on linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Will work on the following operating systems:
+This Ansible role installs Percona Server for MongoDB on Linux operating system, including establishing a filesystem structure and server configuration with some common operational features. Will works on the following operating systems:
 
   * CentOS 7
 
