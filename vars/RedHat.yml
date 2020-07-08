@@ -14,4 +14,4 @@ mongod_packages:
   - 'Percona-Server-MongoDB-{{ mongod_version }}-tools'
   - 'pmm-client'
   - 'policycoreutils-python'
-  - 'python2-pip.noarch'
+  - 'python-pip'

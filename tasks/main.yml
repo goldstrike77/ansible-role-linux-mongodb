@@ -4,9 +4,9 @@
     mongod_servers: "\
       {% set _mongod_servers = [] %}\
       {% for host in groups[group_names[-1]] %}\
-      {% set _mongod_replset = hostvars[host]['mongod_replset'] | default('', true) %}\
-      {% set _mongod_node_role = hostvars[host]['mongod_node_role'] | default('', true) %}\
-        {% if ( _mongod_replset == hostvars[host]['mongod_replset'] and (_mongod_node_role == 'arbiter' or _mongod_node_role == 'replica')) %}\
+      {% set _mongod_replset = mongod_replset | default('', true) %}\
+      {% set _mongod_node_role = mongod_node_role | default('', true) %}\
+        {% if ( _mongod_replset == mongod_replset and (_mongod_node_role == 'arbiter' or _mongod_node_role == 'replica')) %}\
           {% if _mongod_servers.append(hostvars[host]['ansible_host']) %}{% endif %}\
         {% endif %}\
       {% endfor %}\
