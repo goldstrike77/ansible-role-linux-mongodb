@@ -1,12 +1,11 @@
 ---
 - name: Creating MongoDB folder
   file:
-    dest: '{{ item }}'
+    dest: '{{ mongod_path }}/mongod'
     state: 'directory'
     owner: 'mongod'
     group: 'mongod'
     mode: '0750'
-  loop: '{{ mongod_folder }}'
 
 - name: Configure kernel parameters
   sysctl:

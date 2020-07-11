@@ -1,4 +1,12 @@
 ---
+- name: Creating MongoDB backup folder.
+  file:
+    dest: '{{ mongod_path }}/backup/mongod/temp'
+    state: 'directory'
+    owner: 'mongod'
+    group: 'mongod'
+    mode: '0755'
+
 - name: Creating Rclone configureation folder.
   file:
     dest: '/etc/rclone'

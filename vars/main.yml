@@ -8,10 +8,6 @@ mongod_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 mongod_cert_path: '/etc/mongod/ssl'
 
-mongod_folder:
-  - '{{ mongod_path }}/mongod'
-  - '{{ mongod_path }}/backup/mongod/temp'
-
 mongod_kernel_parameters:
   - { variable: 'kernel.pid_max', value: '65536' }
   - { variable: 'kernel.threads-max', value: '65536' }
