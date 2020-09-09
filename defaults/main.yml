@@ -19,13 +19,18 @@ mongod_backupset_arg:
   keep: '7' # Backup retention cycle in days.
   encryptkey: 'Yf3ejyv4kjZf' # BackupSet encryption key, Decrypt by [openssl aes-256-cbc -d -k passwd -salt -in file.tar.gz | tar xzvfP -].
   cloud_rsync: false # Whether rsync for cloud storage.
-  cloud_drive: 'azureblob' # Specify the cloud storage providers.
+  cloud_drive: 'azureblob' # Specify the cloud storage providers, azureblob / s3 for minio.
   cloud_bwlimit: '10M' # Controls the bandwidth limit.
   cloud_event: 'sync' # Define transfer events.
   cloud_config: # Specify the cloud storage configuration.
+# azureblob #
     account: 'blobuser' # Storage Account Name.
     key: 'base64encodedkey==' # Storage Account Key.
     endpoint: 'blob.core.chinacloudapi.cn' # Endpoint for the service.
+# s3 #
+#    access_key: 'JPTNJFUFB6UKLUXMRKZT'
+#    secret_key: 'h9KekbhETGC1UNMcbSrWZCOrBgopdgNJWIeAo28i'
+#    endpoint: 'https://storage-production-other-minio.service.dc01.local:9001'
 
 # Listen port #
 mongod_port: '27017' # MongoDB instance
