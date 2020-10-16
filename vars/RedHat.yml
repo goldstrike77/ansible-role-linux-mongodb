@@ -1,9 +1,9 @@
 ---
 mongod_epel_repo_name: 'epel'
-mongod_epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/{{ ansible_distribution_major_version }}/$basearch/'
+mongod_epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
 
 mongod_repo_name: 'percona'
-mongod_repo_url: "http://mirrors.tuna.tsinghua.edu.cn/percona/release/{{ ansible_distribution_version.split('.')[0] }}/RPMS/{{ ansible_architecture }}"
+mongod_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/percona/release/$releasever/RPMS/$basearch/'
 
 mongod_packages:
   - 'libselinux-utils'
