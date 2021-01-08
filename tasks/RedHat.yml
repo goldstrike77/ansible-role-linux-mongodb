@@ -48,3 +48,14 @@
   until: yum_status is succeeded
   retries: 3
   delay: 5
+
+- name: Mongod systemd configuration.
+  lineinfile:
+    state: 'present'
+    dest: '/lib/systemd/system/mongod.service'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    insertafter: '\[Service\]'
+  loop:
+    - { regexp: '^Restart',    line: 'Restart=on-failure' }
+    - { regexp: '^RestartSec', line: 'RestartSec=30s' }
