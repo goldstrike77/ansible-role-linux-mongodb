@@ -1,6 +1,6 @@
 ---
 mongod_python_dependent_packages:
-  - 'pip'
+  - 'pip==20.3.4'
   - 'pymongo'
   - 'cryptography'
 
