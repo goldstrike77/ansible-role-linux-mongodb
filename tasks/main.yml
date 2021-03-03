@@ -33,7 +33,7 @@
       pip:
         name: '{{ mongod_python_dependent_packages }}'
         state: 'forcereinstall'
-        extra_args: '--default-timeout=120 --ignore-installed -i https://{{ mongod_pypi_url }}/simple --trusted-host {{ mongod_pypi_url }}'
+        extra_args: '--default-timeout=120 -i https://{{ mongod_pypi_url }}/simple --trusted-host {{ mongod_pypi_url }}'
       register: mongod_python_status
       until: mongod_python_status is succeeded
       retries: 5
