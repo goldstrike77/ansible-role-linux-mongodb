@@ -25,6 +25,7 @@ __Table of Contents__
 - [License](#license)
 - [Author Information](#author-information)
 - [Contributors](#Contributors)
+- [Donations](#Donations)
 
 ## Overview
 MongoDB is a cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. Percona Server for MongoDB is a free and open-source drop-in replacement for MongoDB Community Edition. It offers all the features and benefits of MongoDB Community Edition, plus additional enterprise-grade functionality.
@@ -249,3 +250,8 @@ Please send your suggestions to make this role better.
 
 ## Contributors
 Special thanks to the [Connext Information Technology](http://www.connext.com.cn) for their contributions to this role.
+
+## Donations
+Please donate to the following monero address.
+
+    46CHVMbb6wQV2PJYEbahb353SYGqXhcdFQVEWdCnHb6JaR5125h3kNQ6bcqLye5G7UF7qz6xL9qHLDSAY3baagfmLZABz75

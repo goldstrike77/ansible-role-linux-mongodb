@@ -77,6 +77,6 @@
   cron:
     user: 'mongod'
     name: 'MongoDB Hot Backup'
-    minute: "{{ ( ansible_hostname | hash | list | map('int',0,16) | sum ) % 60 }}"
-    hour: "{{ (( ansible_hostname | hash | list | map('int',0,16) | sum ) % 2) + 1 }}"
+    minute: '{{ 60 | random(seed=ansible_hostname + "mongodb") }}'
+    hour: '{{ 6 | random(seed=ansible_hostname + "mongodb",step=1) }}'
     job: '/bin/sh /usr/local/bin/mongod_hot_backup.sh'
