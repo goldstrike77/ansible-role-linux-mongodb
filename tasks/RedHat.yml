@@ -9,6 +9,7 @@
     file: '{{ mongod_epel_repo_name }}'
     baseurl: '{{ mongod_epel_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
   when:
     - mongod_backupset_arg.cloud_rsync | bool
@@ -36,6 +37,7 @@
     file: '{{ mongod_repo_name }}'
     baseurl: '{{ mongod_repo_url }}'
     gpgcheck: 'no'
+    sslverify: 'no'
     timeout: '60'
 
 - name: Install the MongoDB packages
