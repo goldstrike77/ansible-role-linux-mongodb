@@ -3,7 +3,7 @@
   set_fact:
     mongod_servers: "\
       {% set _mongod_servers = [] %}\
-      {% for host in groups[group_names[0]] %}\
+      {% for host in groups[group_names[-1]] %}\
       {% set _mongod_replset = mongod_replset | default('', true) %}\
       {% set _mongod_node_role = mongod_node_role | default('', true) %}\
         {% if ( _mongod_replset == mongod_replset and (_mongod_node_role == 'arbiter' or _mongod_node_role == 'replica')) %}\
