@@ -13,8 +13,8 @@ mongod_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 mongod_cert_path: '/etc/mongod/ssl'
 
 mongod_kernel_parameters:
-  - { variable: 'kernel.pid_max', value: '65536' }
-  - { variable: 'kernel.threads-max', value: '65536' }
+  - { variable: 'kernel.pid_max', value: '4194303' }
+  - { variable: 'kernel.threads-max', value: '131072' }
   - { variable: 'vm.dirty_background_ratio', value: '5' }
   - { variable: 'vm.dirty_ratio', value: '15' }
   - { variable: 'vm.max_map_count', value: '262144' }
